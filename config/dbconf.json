@@ -1,0 +1,7 @@
+{
+  "host": "localhost",
+  "port": "5432",
+  "db": "picplace",
+  "username": "picplace",
+  "passwd": "mypassword"
+}
