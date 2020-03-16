@@ -2,15 +2,18 @@
   session_start();
   require_once ('TemplateMaker.php');
   Template::AddPathValue('login', 'static/login.html');
-  if (isset($_POST['submit'])) {
-    $login = $_POST['login'];
-    $passwd = $_POST['passwd'];
 
+  if (isset($_POST['submit'])) {
     require_once ('../internal/verifier.php');
-    if (verify($login, 'email') && verify($passwd, 'password')) {
+    $login = filter($_POST['login'], 'email');
+    $passwd = filter($_POST['passwd'], 'passwd');
+
+    if ($verLogin = verify($login, 'email') && $verPasswd = verify($passwd, 'password')) {
       require_once ('../db/DBExecutor.php');
       if (DBExecutor::CheckUserRegistred($login, $passwd)) {
         $_SESSION['logged'] = true;
+        $_SESSION['username'] = $login;
+        echo "Sucsessfully logged as $login";
       }
       else {
         $errLoginpage = new Template('login', ['LOGIN'=> $login, 'BOTTOMLABEL' => "
@@ -30,4 +33,3 @@
     echo strval($errLoginpage);
   }
 
-?>

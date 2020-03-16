@@ -1,7 +1,7 @@
 {
-  "host": "localhost",
+  "host": "172.19.0.2",
   "port": "5432",
   "db": "picplace",
   "username": "picplace",
-  "passwd": "mypassword"
+  "passwd": "nevermind"
 }
