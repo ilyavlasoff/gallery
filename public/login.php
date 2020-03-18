@@ -13,7 +13,7 @@
       if (DBExecutor::CheckUserRegistred($login, $passwd)) {
         $_SESSION['logged'] = true;
         $_SESSION['username'] = $login;
-        echo "Sucsessfully logged as $login";
+        header("Location: profile.php");
       }
       else {
         $errLoginpage = new Template('login', ['LOGIN'=> $login, 'BOTTOMLABEL' => "

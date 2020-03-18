@@ -1,15 +1,47 @@
-.header {
-
+.body {
+    width: 100%;
 }
-
-.logolink {
-
+.flex-container {
+    display: flex;
 }
-
-.logopic {
-
+.profile-header {
+    width: 60%;
+    margin: auto;
+    margin-top: 6vw;
+    flex-direction: row;
 }
-
-.footer {
-
+.profile-content {
+    width: 80%;
+    margin: auto;
+}
+.profile-pic {
+    display: block;
+    width: 180px;
+    height: 180px;
+    border: none;
+    border-radius: 100px;
+}
+.profile-text-info {
+    margin-left: 8vw;
+}
+.profile-text-info > .nick-container {
+    flex-direction: row;
+    align-items: center;
+}
+.profile-text-info > .nick-container > #operbut {
+    margin-left: 4vw;
+    height: 30px;
+}
+.profile-text-info > #bio {
+    font-size: 16px;
+    color: gray;
+}
+.profile-text-info > #stat {
+    display: flex;
+    flex-direction: row;
+}
+.profile-text-info > #stat > p {
+    font-size: 16px;
+    margin-right: 3vw;
+    color:  #424242;
 }

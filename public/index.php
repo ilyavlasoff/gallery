@@ -2,7 +2,7 @@
 
 session_start();
 
-if (!isset($_SESSION['logged'])) {
+if (!isset($_SESSION['logged']) || !isset($_SESSION['username'])) {
   $_SESSION['usrAgent'] = $_SERVER['HTTP_USER_AGENT'];
   $_SESSION['remAddr'] = $_SERVER['REMOTE_ADDR'];
   $_SESSION['forwardedFor'] = $_SERVER['HTTP_X_FORWARDED_FOR'];
@@ -18,7 +18,7 @@ else {
   $_SESSION['forwardedFor'] === $_SERVER['HTTP_X_FORWARDED_FOR']);
 
   if ($identify) {
-    echo "Redirecting to your page...";
+      header('Location: profile.php');
   }
   else {
       header('Location: login.php');

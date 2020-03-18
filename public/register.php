@@ -38,7 +38,7 @@ if (isset($_POST['submit'])) {
         if (DBExecutor::RegisterNewUser($login, $passwd, $name, $surname) > 0) {
             $_SESSION['logged'] = true;
             $_SESSION['username'] = $login;
-            echo 'Redirect to your page...';
+            header('Location: profile.php');
         }
     }
     catch (Exception $ex) {
