@@ -68,4 +68,43 @@ class DBExecutor {
         $expr->execute(['owner' => $user, 'quan' => $quan, 'offset' => $offset]);
         return $expr->fetchAll(PDO::FETCH_ASSOC);
     }
+
+    public static function GetPostsQuan(string $user) : int
+    {
+        if (!self::CheckUserExists($user)) {
+            throw new Exception("User $user doesn't exists");
+        }
+        $expr = self::GetPdo()->prepare('SELECT count(*) FROM photo WHERE ownerLogin=:login');
+        $expr->execute(['login' => $user]);
+        return intval($expr->fetch()[0]);
+    }
+
+    public static function GetSubscriptions(string $user): array {
+        if (!self::CheckUserExists($user)) {
+            throw new Exception("User $user doesn't exists");
+        }
+        $exprIncoming = self::GetPdo()->prepare('SELECT count(*) FROM subs WHERE login=:user');
+        $exprIncoming->execute(['user' => $user]);
+        $exprOutcoming = self::GetPdo()->prepare('SELECT count(*) FROM subs WHERE subLogin=:user');
+        $exprOutcoming->execute(['user' => $user]);
+        return [intval($exprIncoming->fetch()[0]), intval($exprOutcoming->fetch()[0])];
+    }
+
+    public static function Subscribe(string $from,  string $to, bool $deny): int {
+        if (!self::CheckUserExists($from) || !self::CheckUserExists($to)) {
+            throw new Exception("User doesn't exists");
+        }
+        $checkSubs = self::GetPdo()->prepare('SELECT * FROM subs WHERE login=:to and subLogin=:from');
+        $checkSubs->execute(['to' => $to, 'from' => $from]);
+        if ($deny && $checkSubs->fetch()) {
+            $expr = self::GetPdo()->prepare('DELETE FROM subs WHERE login=:to and subLogin=:from)');
+            $expr->execute(['to' => $to, 'from' => $from]);
+            return $expr->rowCount();
+        }
+        elseif (!$deny && $checkSubs->fetch()) {
+            $expr = self::GetPdo()->prepare('INSERT INTO subs VALUES (:to, :from)');
+            $expr->execute(['to' => $to, 'from' => $from]);
+            return $expr->rowCount();
+        }
+    }
 }

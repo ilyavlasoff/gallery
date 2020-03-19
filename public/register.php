@@ -38,7 +38,10 @@ if (isset($_POST['submit'])) {
         if (DBExecutor::RegisterNewUser($login, $passwd, $name, $surname) > 0) {
             $_SESSION['logged'] = true;
             $_SESSION['username'] = $login;
-            header('Location: profile.php');
+            $_SESSION['usrAgent'] = $_SERVER['HTTP_USER_AGENT'];
+            $_SESSION['remAddr'] = $_SERVER['REMOTE_ADDR'];
+            $_SESSION['forwardedFor'] = $_SERVER['HTTP_X_FORWARDED_FOR'];
+            header("Location: profile.php?id=$login");
         }
     }
     catch (Exception $ex) {

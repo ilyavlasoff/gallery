@@ -5,9 +5,9 @@
     display: flex;
 }
 .profile-header {
-    width: 60%;
+    align-items: center;
     margin: auto;
-    margin-top: 6vw;
+    margin-top: 5vw;
     flex-direction: row;
 }
 .profile-content {
@@ -16,10 +16,17 @@
 }
 .profile-pic {
     display: block;
-    width: 180px;
-    height: 180px;
+    width: 150px;
+    height: 150px;
     border: none;
     border-radius: 100px;
+}
+.ph-container {
+    justify-content: center;
+    flex-direction: column;
+}
+.ph-container > button {
+    margin-top: 2vw;
 }
 .profile-text-info {
     margin-left: 8vw;
@@ -27,6 +34,9 @@
 .profile-text-info > .nick-container {
     flex-direction: row;
     align-items: center;
+}
+.profile-text-info > .nick-container > h1 {
+    font-size: 40px;
 }
 .profile-text-info > .nick-container > #operbut {
     margin-left: 4vw;
@@ -44,4 +54,22 @@
     font-size: 16px;
     margin-right: 3vw;
     color:  #424242;
+}
+.loadmore {
+    display: block;
+    margin-right: auto;
+    margin-left: auto;
+    margin-top: 3vw;
+}
+.profile-content {
+    width: 80%;
+    margin: auto;
+    margin-top: 3vw;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+.profile-content > img {
+    width: 30%;
+    height: 30%;
+    margin: 5px;
 }
