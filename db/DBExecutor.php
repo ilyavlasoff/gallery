@@ -44,8 +44,9 @@ class DBExecutor {
         {
             throw new Exception("User $login is not exists");
         }
-        $expr=self::GetPdo()->prepare('UPDATE usr SET hpasswd=:newPasswd WHERE hpasswd=:oldPasswd');
-        $expr->execute(['newPasswd' => $newPasswd, 'oldPasswd' => $oldPasswd]);
+        $newPasswdHash = password_hash($newPasswd,  PASSWORD_BCRYPT);
+        $expr=self::GetPdo()->prepare('UPDATE usr SET hpasswd=:newPasswd WHERE login=:login');
+        $expr->execute(['newPasswd' => $newPasswdHash, 'login' => $login]);
         return $expr->rowCount();
     }
 

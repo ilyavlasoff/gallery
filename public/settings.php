@@ -85,7 +85,8 @@ function ChangePasswd() {
         displayPage(['ERROR' => "Repeat new password correctly"]);
     }
     try {
-        DBExecutor::ChangePassword($_SESSION['username'], $_POST['oldPasswd'], $_POST['newPasswd']);
+        $count = DBExecutor::ChangePassword($_SESSION['username'], $_POST['oldPasswd'], $_POST['newPasswd']);
+        if ($count != 1) throw new Exception();
     }
     catch (Exception $ex) {
         displayPage(['ERROR' => "Can not change password. Try again later"]);
@@ -102,6 +103,7 @@ function ChangeNick() {
      */
     try {
         DBExecutor::UpdateNick($_SESSION['username'], $_POST['nick']);
+
     }
     catch (Exception $ex) {
         displayPage(['ERROR' => "Can not change nickname. Try again later"]);

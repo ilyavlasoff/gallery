@@ -42,6 +42,13 @@ if (isset($_POST['submit'])) {
             $_SESSION['usrAgent'] = $_SERVER['HTTP_USER_AGENT'];
             $_SESSION['remAddr'] = $_SERVER['REMOTE_ADDR'];
             $_SESSION['forwardedFor'] = $_SERVER['HTTP_X_FORWARDED_FOR'];
+            $uploadRootDir = './uploads/' . $login;
+            if(!is_dir($uploadRootDir)) {
+                mkdir($uploadRootDir);
+            }
+            else {
+                throw new Exception();
+            }
             header("Location: settings.php");
         }
     }
