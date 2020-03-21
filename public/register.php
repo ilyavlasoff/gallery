@@ -10,6 +10,7 @@ if (isset($_POST['submit'])) {
     $login = filter($_POST['login'], 'email');
     $passwd = filter($_POST['passwd'], 'passwd');
     $passwdRep = filter($_POST['passwdRep'], 'passwd');
+    $nick = filter($_POST['nick'], 'str');
     $rulesAgree = $_POST['rulesAgree'];
 
 
@@ -35,13 +36,13 @@ if (isset($_POST['submit'])) {
     list($name, $surname) = explode(' ', $username);
 
     try {
-        if (DBExecutor::RegisterNewUser($login, $passwd, $name, $surname) > 0) {
+        if (DBExecutor::RegisterNewUser($login, $passwd, $name, $surname, $nick) > 0) {
             $_SESSION['logged'] = true;
             $_SESSION['username'] = $login;
             $_SESSION['usrAgent'] = $_SERVER['HTTP_USER_AGENT'];
             $_SESSION['remAddr'] = $_SERVER['REMOTE_ADDR'];
             $_SESSION['forwardedFor'] = $_SERVER['HTTP_X_FORWARDED_FOR'];
-            header("Location: profile.php?id=$login");
+            header("Location: settings.php");
         }
     }
     catch (Exception $ex) {

@@ -15,7 +15,7 @@ else
   $_SESSION['forwardedFor'] === $_SERVER['HTTP_X_FORWARDED_FOR']);
 
   if ($identify) {
-      header('Location: profile.php');
+      header("Location: profile.php?id=${_SESSION['username']}");
   }
   else {
       header('Location: login.php');

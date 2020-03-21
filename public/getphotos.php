@@ -22,7 +22,7 @@ try {
         if (count($elements) != 0) {
             $content = "";
             foreach ($elements as $element) {
-                $content .= "<a href=\"{$element->path}\" alt=\"{$element->phid}\"></a>";
+                $content .= '<img src="' . $element['path'] . '" alt="'. $element['phid'] . '"></a>';
             }
             $msg = ['loaded' => count($elements), 'message' => $content];
         } else {

@@ -26,15 +26,15 @@ class DBExecutor {
         return $expr->fetchColumn() != false;
     }
 
-    public static function RegisterNewUser(string $login, string $passwd, string $name, string $surname): int
+    public static function RegisterNewUser(string $login, string $passwd, string $name, string $surname, string $nick): int
     {
         if (self::CheckUserRegistred($login, $passwd) > 0)
         {
             throw new Exception("User $login is already exists");
         }
         $passwd_hash = password_hash($passwd,  PASSWORD_BCRYPT);
-        $expr = self::GetPdo()->prepare('INSERT INTO usr (login, hpasswd, name, surname) VALUES (:login, :hpasswd, :name, :surname)');
-        $expr->execute(['login' => $login, 'hpasswd' => $passwd_hash, 'name' => $name, 'surname' => $surname]);
+        $expr = self::GetPdo()->prepare('INSERT INTO usr (login, hpasswd, name, surname, nick) VALUES (:login, :hpasswd, :name, :surname, :nick)');
+        $expr->execute(['login' => $login, 'hpasswd' => $passwd_hash, 'name' => $name, 'surname' => $surname, 'nick' => $nick]);
         return $expr->rowCount();
     }
 
@@ -46,6 +46,24 @@ class DBExecutor {
         }
         $expr=self::GetPdo()->prepare('UPDATE usr SET hpasswd=:newPasswd WHERE hpasswd=:oldPasswd');
         $expr->execute(['newPasswd' => $newPasswd, 'oldPasswd' => $oldPasswd]);
+        return $expr->rowCount();
+    }
+
+    public static function UpdateNick(string $user, string $nick) : int{
+        if (!self::CheckUserExists($user)) {
+            throw new Exception("User $user doesn't exists");
+        }
+        $expr = self::GetPdo()->prepare('UPDATE usr SET nick=:nick WHERE login=:login');
+        $expr->execute(['nick' => $nick, 'login' => $user]);
+        return $expr->rowCount();
+    }
+
+    public static function UpdateBio(string $user, string $bio) : int{
+        if (!self::CheckUserExists($user)) {
+            throw new Exception("User $user doesn't exists");
+        }
+        $expr = self::GetPdo()->prepare('UPDATE usr SET bio=:bio WHERE login=:login');
+        $expr->execute(['bio' => $bio, 'login' => $user]);
         return $expr->rowCount();
     }
 
@@ -76,7 +94,7 @@ class DBExecutor {
         }
         $expr = self::GetPdo()->prepare('SELECT count(*) FROM photo WHERE ownerLogin=:login');
         $expr->execute(['login' => $user]);
-        return intval($expr->fetch()[0]);
+        return $expr->fetchColumn();
     }
 
     public static function GetSubscriptions(string $user): array {
@@ -87,24 +105,43 @@ class DBExecutor {
         $exprIncoming->execute(['user' => $user]);
         $exprOutcoming = self::GetPdo()->prepare('SELECT count(*) FROM subs WHERE subLogin=:user');
         $exprOutcoming->execute(['user' => $user]);
-        return [intval($exprIncoming->fetch()[0]), intval($exprOutcoming->fetch()[0])];
+        return [intval($exprIncoming->fetchColumn()), intval($exprOutcoming->fetchColumn())];
     }
 
     public static function Subscribe(string $from,  string $to, bool $deny): int {
         if (!self::CheckUserExists($from) || !self::CheckUserExists($to)) {
             throw new Exception("User doesn't exists");
         }
-        $checkSubs = self::GetPdo()->prepare('SELECT * FROM subs WHERE login=:to and subLogin=:from');
+        $checkSubs = self::GetPdo()->prepare('SELECT count(*) FROM subs WHERE login=:to and subLogin=:from');
         $checkSubs->execute(['to' => $to, 'from' => $from]);
-        if ($deny && $checkSubs->fetch()) {
-            $expr = self::GetPdo()->prepare('DELETE FROM subs WHERE login=:to and subLogin=:from)');
+        if ($deny && $checkSubs->fetchColumn() === 1) {
+            $expr = self::GetPdo()->prepare('DELETE FROM subs WHERE login=:to and subLogin=:from');
             $expr->execute(['to' => $to, 'from' => $from]);
             return $expr->rowCount();
         }
-        elseif (!$deny && $checkSubs->fetch()) {
+        elseif (!$deny && $checkSubs->fetchColumn() === 0) {
             $expr = self::GetPdo()->prepare('INSERT INTO subs VALUES (:to, :from)');
             $expr->execute(['to' => $to, 'from' => $from]);
             return $expr->rowCount();
         }
+    }
+
+    public static function AddPhoto(string $login, string $path, string $description): int {
+        if (!self::CheckUserExists($login)) {
+            throw new Exception("User doesn't exists");
+        }
+        $timestr = date('Y.m.d h:i:s');
+        $expr = self::GetPdo()->prepare('INSERT INTO photo VALUES (default, :path, :owner, :descr, :addedtime)');
+        $expr->execute(['path' => $path, 'owner' => $login, 'descr' => $description, 'addedtime' => $timestr]);
+        return $expr->rowCount();
+    }
+
+    public static function CheckSubscription(string $from, string $to): int {
+        if (!self::CheckUserExists($from) || !self::CheckUserExists($to)) {
+            throw new Exception("User doesn't exists");
+        }
+        $expr = self::GetPdo()->prepare('SELECT count(*) FROM subs WHERE login=:to AND subLogin=:from');
+        $expr->execute(['to' => $to, 'from' => $from]);
+        return $expr->fetchColumn();
     }
 }

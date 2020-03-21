@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+          integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <meta charset="utf-8">
+    <title>Account settings</title>
+    <style>
+        body {
+            width: 100%;
+        }
+        h1 {
+            font-size: 40px;
+            text-align: center;
+            margin-top: 4vw;
+        }
+        .flex-container {
+            display: flex;
+        }
+        #accountInfoContainer {
+            margin-top: 2vw;
+            align-items: center;
+            flex-direction: column;
+        }
+        #accountLogin {
+            font-size: 14px;
+            margin-top: 1vw;
+            color: dimgray;
+        }
+        #accountInfo {
+            flex-direction: row;
+            align-items: center;
+            margin: auto;
+        }
+        #accountInfo > img {
+            width: 50px;
+            height: 50px;
+            border: none;
+            border-radius: 50px;
+        }
+        #accountInfo > #titleName {
+            margin-left: 1vw;
+            font-size: 25px;
+            text-decoration: none;
+            color: #000;
+        }
+        label {
+            color: dimgray;
+            font-size: 12px;
+            margin-top: 5px;
+            margin-bottom: 5px;
+        }
+        .err {
+            color: red;
+        }
+        .info {
+            color: darkgreen;
+        }
+        #titleLink > h5{
+            text-decoration: none;
+            color: black;
+            font-size: 20px;
+        }
+        .main-container {
+            justify-content: center;
+            flex-direction: column;
+            align-items: center;
+        }
+        .setter-container {
+            flex-direction: column;
+            width: 50%;
+        }
+        .bordered-container {
+            border: 1px solid dimgray;
+            border-radius: 5px;
+            margin: 5px;
+            padding: 5px;
+        }
+        .submit-button {
+            margin-top: 7px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Account settings</h1>
+    <div class="flex-container" id="accountInfoContainer">
+        <div class="flex-container" id="accountInfo">
+            <img src="{PROFILEPIC}" alt="{NAME}'s profile picture" class="">
+            <a href="{USERPAGE}" target="_blank" id="titleName"><h5>{NAME} {SURNAME}</h5></a>
+        </div>
+        <p id="accountLogin">{USERLOGIN}</p>
+    </div>
+    <p class="info">{INFO}</p>
+    <p class="err">{ERROR}</p>
+    <div class="flex-container main-container">
+        <div class="flex-container setter-container" id="loginInfo">
+            <label for="titleName">Your login</label>
+            <a href="{USERPAGE}" target="_blank" id="titleLink"><h5>{USERLOGIN}</h5></a>
+        </div>
+        <div class="flex-container setter-container bordered-container" id="changeUserPic">
+            <label>Change main profile picture</label>
+            <form method="POST" action="settings.php" enctype="multipart/form-data">
+                <input type="file" accept=".png, .jpg, .jpeg" name="photo"><br>
+                <button name="changePicture" type="submit" class="btn btn-sm btn-secondary submit-button" onchange="updatePicture">Change profile picture</button>
+            </form>
+        </div>
+        <div class="flex-container setter-container bordered-container" id="changePassword">
+            <label for="changePasswdForm">Change password</label>
+            <form action="settings.php" id="changePasswdForm" method="POST">
+                <input type="password" name="oldPasswd" class="form-control" placeholder="Old password" id="oldPasswd" value="{OLDPASSWD}">
+                <input type="password" name="newPasswd" class="form-control" placeholder="New password" id="newPasswd" value="{NEWPASSWD}">
+                <input type="password" name="newPasswdRepeat" class="form-control" placeholder="Repeat password" id="newPasswdRep" value="{NEWPASSWDREP}">
+                <button type="submit" name="changePasswd" class="btn btn-sm btn-secondary submit-button">Change password</button>
+            </form>
+        </div>
+        <div class="flex-container setter-container bordered-container" id="changeNick">
+            <label for="changeNickForm">Change nickname</label>
+            <form action="settings.php" method="POST" id="changeNickForm">
+                <input type="text" name="nick" value="{NICK}" class="form-control" placeholder="Nickname" id="nickName">
+                <button type="submit" name="changeNick" class="btn btn-sm btn-secondary submit-button">Change nickname</button>
+            </form>
+        </div>
+        <div class="flex-container setter-container bordered-container" id="changeBio">
+            <label for="changeBioForm">Change bio</label>
+            <form action="settings.php" method="POST" id="changeBioForm">
+                <textarea name="bio" class="form-control" placeholder="Account description" id="bioArea" rows="3">{BIO}</textarea>
+                <button type="submit" name="changeBio" class="btn btn-sm btn-secondary submit-button">Change bio</button>
+            </form>
+        </div>
+        <button type="button" onclick="toPage()" class="btn btn-primary">Go to your page</button>
+    </div>
+<script>
+    function toPage() {window.location.replace('./profile.php?id={USERLOGIN}')}
+</script>
+</body>
+</html>

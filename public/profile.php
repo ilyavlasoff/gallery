@@ -2,6 +2,7 @@
 session_start();
 
 require_once ('TemplateMaker.php');
+require_once ('../db/DBExecutor.php');
 Template::AddPathValue('placeholder', 'static/placeholder.html');
 Template::AddPathValue('page', 'static/userpage.html');
 
@@ -13,7 +14,6 @@ if (!$identify || ! (isset($_SESSION['logged']) && isset($_SESSION['username']))
     sendError("Resourse isn't available without registration");
 }
 
-require_once ('../db/DBExecutor.php');
 $reqId = $_GET['id'];
 try {
     $profileData = DBExecutor::GetUserInfo($reqId);
@@ -26,10 +26,17 @@ catch (Exception $ex) {
 
 if ($reqId === $_SESSION['username']) {
     $profileAction = 'Edit profile';
-    //Template::AddPathValue('editprof', 'static/editprofile.html');
-    //$profileActionHandler = new Template('editprof');
     $profileActionHandler = "";
     $addPostButton = '<button class="btn btn-secondary btn-sm" onclick="addPost()">Add post</button>';
+    $profileActionOnclick = 'changeSettings()';
+}
+else {
+    $profileAction = 'Subscribe';
+    Template::AddPathValue('subscr', 'static/subscription.js');
+    $addPostButton = '';
+    $isSubscripted = DBExecutor::CheckSubscription($_SESSION['username'], $reqId);
+    $profileActionHandler = new Template('subscr', ['SUBSCRIPTED' => $isSubscripted]);
+    $profileActionOnclick = 'subscr()';
 }
 
 $page = new Template('page', [
@@ -45,7 +52,8 @@ $page = new Template('page', [
     'SUBSCRIBERS' => $incomingSubs,
     'SUBSCRIPTIONS' => $outcomingSubs,
     'ADDPOSTBUTTON' => $addPostButton,
-    'PROFILEACTIONFUNC' => $profileActionHandler]);
+    'PROFILEACTIONFUNC' => strval($profileActionHandler),
+    'PROFILEACTIONCALL' => $profileActionOnclick]);
 echo $page;
 
 function sendError($text) {

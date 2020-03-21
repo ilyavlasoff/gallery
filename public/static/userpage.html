@@ -18,7 +18,7 @@
         <div class="profile-text-info">
             <div class="nick-container flex-container">
                 <h1>{NICK}</h1>
-                <button class="btn btn-primary btn-sm" id="operbut" onclick="subscr()">{PROFILEACTION}</button>
+                <button class="btn btn-primary btn-sm" id="operbut" onclick="{PROFILEACTIONCALL}">{PROFILEACTION}</button>
             </div>
             <h4 id="name">{NAME} {SURNAME}</h4>
             <div id="stat">
@@ -42,6 +42,7 @@
         const url = "getphotos.php";
         var args = {'pageId': pageId, 'quan': _quantity, "offset": offset, "sessionId": sessionId, 'mode': 'time' };
         var success = function(resp) {
+            console.log(resp);
             resp = JSON.parse(resp);
             picturesContainer.innerHTML += resp.message;
             if (resp.loaded < _quantity) {
@@ -56,6 +57,9 @@
     }
     function addPost() {
         window.location.replace('addPost.php');
+    }
+    function changeSettings() {
+        window.location.replace('settings.php');
     }
     {PROFILEACTIONFUNC}
 </script>

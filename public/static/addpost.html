@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+          integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <link rel="stylesheet" href="../static/styles.css">
+    <title>Add post</title>
+    <meta charset="utf-8">
+    <style>
+        body {
+            width: 100%;
+        }
+        h1 {
+            font-size: 40px;
+            text-align: center;
+            margin-top: 4vw;
+        }
+        .flex-container {
+            display: flex;
+        }
+        #accountInfoContainer {
+            margin-top: 2vw;
+            align-items: center;
+            flex-direction: column;
+        }
+        #accountLogin {
+            font-size: 14px;
+            margin-top: 1vw;
+            color: dimgray;
+        }
+        #accountInfo {
+            flex-direction: row;
+            align-items: center;
+            margin: auto;
+        }
+        #accountInfo > img {
+            width: 50px;
+            height: 50px;
+            border: none;
+            border-radius: 50px;
+        }
+        #accountInfo > #titleName {
+            margin-left: 1vw;
+            font-size: 25px;
+            text-decoration: none;
+            color: #000;
+        }
+        #previewImage {
+            width: 400px;
+            height: 400px;
+            margin: auto;
+        }
+        #previewContainer {
+            flex-direction: column;
+            align-items: center;
+        }
+        #mainContainer {
+            margin-top: 4vw;
+            flex-direction: row;
+            justify-content: center;
+        }
+        #inputField {
+            margin-left: 2vw;
+        }
+        label {
+            color: dimgray;
+            font-size: 12px;
+            margin-top: 5px;
+            margin-bottom: 5px;
+        }
+        .err {
+            color: red;
+        }
+    </style>
+</head>
+<body>
+    <h1>Add a new post</h1>
+    <div class="flex-container" id="accountInfoContainer">
+        <div class="flex-container" id="accountInfo">
+            <img src="{PROFILEPIC}" alt="{NAME}'s profile picture" class="">
+            <a href="{USERPAGE}" target="_blank" id="titleName"><h5>{NAME} {SURNAME}</h5></a>
+        </div>
+        <p id="accountLogin">{USERLOGIN}</p>
+    </div>
+        <form method="POST" action="addPost.php" enctype="multipart/form-data">
+            <div class="flex-container" id="mainContainer">
+                <div class="flex-container" id="previewContainer">
+                    <img src="./static/media/noimage.png" alt="No photo" id="previewImage">
+                    <label for="previewImage">Image preview</label>
+                </div>
+                <div id="inputField">
+                    <div class="form-group">
+                        <label for="fileInput" >Choose a file</label><br>
+                        <input type="file" id="fileInput" name="fileinp" accept=".jpg, .jpeg, .png">
+                    </div>
+                    <div class="form-group">
+                        <label for="photoDescription">Describe your photo</label>
+                        <textarea class="form-control" id="photoDescription" name="photoDescription" rows="3"></textarea>
+                    </div>
+                    <button type="submit" class="btn btn-primary btn-sm" name="submit">Add photo</button>
+                    <div id="fileInfo"></div>
+                    <div><label class="err">{ERROR}</label></div>
+                </div>
+            </div>
+        </form>
+<script type="text/javascript">
+    var input = document.getElementById('fileInput');
+    var preview = document.getElementById('previewImage');
+    var fileinfo = document.getElementById('fileInfo');
+    input.addEventListener('change', photoAdd);
+    function photoAdd() {
+        let uploadadFile = input.files;
+        while (fileinfo.firstChild) {
+            fileinfo.removeChild(fileinfo.firstChild);
+        }
+        if (uploadadFile.length !== 1) {
+            let error = document.createElement('label');
+            error.innerText = 'Error loading files';
+            error.style.color = "red";
+        }
+        else {
+            let file = uploadadFile[0];
+            let filename = document.createElement('label');
+            filename.innerText = 'File: ' + file.name;
+            let filesize = document.createElement('label');
+            filesize.innerText = 'Size: ' + file.size;
+            fileinfo.appendChild(filename);
+            fileinfo.appendChild(document.createElement('br'));
+            fileinfo.appendChild(filesize);
+            preview.src = window.URL.createObjectURL(file);
+        }
+    }
+</script>
+</body>
+</html>
