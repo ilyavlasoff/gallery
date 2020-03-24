@@ -2,7 +2,7 @@
 
 session_start();
 require_once ('../db/DBExecutor.php');
-require_once ('TemplateMaker.php');
+require_once('../internal/TemplateMaker.php');
 Template::AddPathValue('settings', './static/settings.html');
 
 $identify = ($_SESSION['usrAgent'] === $_SERVER['HTTP_USER_AGENT'] &&

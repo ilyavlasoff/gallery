@@ -1,7 +1,7 @@
 <?php
 session_start();
 
-require_once ('TemplateMaker.php');
+require_once('../internal/TemplateMaker.php');
 require_once ('../db/DBExecutor.php');
 Template::AddPathValue('placeholder', 'static/placeholder.html');
 Template::AddPathValue('page', 'static/userpage.html');
@@ -20,7 +20,7 @@ try {
     $postsCount = DBExecutor::GetPostsQuan($reqId);
     list($incomingSubs, $outcomingSubs) = DBExecutor::GetSubscriptions($reqId);
 }
-catch (Exception $ex) {
+catch (PDOException $ex) {
     sendError("User doesn't exists");
 }
 

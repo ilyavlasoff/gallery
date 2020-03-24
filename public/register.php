@@ -1,6 +1,6 @@
 <?php
 session_start();
-require_once ('TemplateMaker.php');
+require_once('../internal/TemplateMaker.php');
 Template::AddPathValue('reg', 'static/register.html');
 
 if (isset($_POST['submit'])) {
@@ -20,10 +20,10 @@ if (isset($_POST['submit'])) {
     if (!$correct) {
         $message = '';
         if (!$rulesAgree)
-            $message .= 'You must accept our rules to use service';
-        elseif ($passwd !== $passwdRep)
-            $message .= 'Password and the duplicate password must match';
-        elseif (!verify($username, 'name')) {
+            $message .= 'You must accept our rules to use service ';
+        if ($passwd !== $passwdRep)
+            $message .= 'Password and the duplicate password must match ';
+        if (!verify($username, 'name')) {
             $message .= 'You should add real name and surname';
         }
         $errRegpage = new Template('reg', ['BOTTOMLABEL' => "$message"]);
@@ -54,11 +54,11 @@ if (isset($_POST['submit'])) {
     }
     catch (Exception $ex) {
         $errRegpage = new Template('reg', ['BOTTOMLABEL' => "Cannot register user $username"]);
-        echo strval($errRegpage);
-        die();
+        echo $errRegpage;
+        exit();
     }
 }
 else {
     $regPage = new Template('reg');
-    echo strval($regPage);
+    echo $regPage;
 }

@@ -1,5 +1,5 @@
 <?php
-require_once "ConfigReader.php";
+require_once "../internal/ConfigReader.php";
 class DBConnector {
     /*
     private static PDO $pdo;

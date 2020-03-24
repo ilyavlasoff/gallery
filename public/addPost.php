@@ -1,7 +1,7 @@
 <?php
 session_start();
-require_once ('TemplateMaker.php');
-require_once ('../db/ConfigReader.php');
+require_once('../internal/TemplateMaker.php');
+require_once('../internal/ConfigReader.php');
 require_once ('../db/DBExecutor.php');
 Template::AddPathValue('addpost','./static/addpost.html');
 

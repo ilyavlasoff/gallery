@@ -4,84 +4,21 @@
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
           integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
     <meta name="viewport" content="width=device-width,initial-scale=1">
-    <link rel="stylesheet" href="../static/styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Nunito&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="./static/styles/styles.css">
+    <script src="https://kit.fontawesome.com/473afe022a.js" crossorigin="anonymous"></script>
     <title>Add post</title>
     <meta charset="utf-8">
-    <style>
-        body {
-            width: 100%;
-        }
-        h1 {
-            font-size: 40px;
-            text-align: center;
-            margin-top: 4vw;
-        }
-        .flex-container {
-            display: flex;
-        }
-        #accountInfoContainer {
-            margin-top: 2vw;
-            align-items: center;
-            flex-direction: column;
-        }
-        #accountLogin {
-            font-size: 14px;
-            margin-top: 1vw;
-            color: dimgray;
-        }
-        #accountInfo {
-            flex-direction: row;
-            align-items: center;
-            margin: auto;
-        }
-        #accountInfo > img {
-            width: 50px;
-            height: 50px;
-            border: none;
-            border-radius: 50px;
-        }
-        #accountInfo > #titleName {
-            margin-left: 1vw;
-            font-size: 25px;
-            text-decoration: none;
-            color: #000;
-        }
-        #previewImage {
-            width: 400px;
-            height: 400px;
-            margin: auto;
-        }
-        #previewContainer {
-            flex-direction: column;
-            align-items: center;
-        }
-        #mainContainer {
-            margin-top: 4vw;
-            flex-direction: row;
-            justify-content: center;
-        }
-        #inputField {
-            margin-left: 2vw;
-        }
-        label {
-            color: dimgray;
-            font-size: 12px;
-            margin-top: 5px;
-            margin-bottom: 5px;
-        }
-        .err {
-            color: red;
-        }
-    </style>
+
 </head>
 <body>
-    <h1>Add a new post</h1>
-    <div class="flex-container" id="accountInfoContainer">
-        <div class="flex-container" id="accountInfo">
+    <h1 class="page-title">Add a new post</h1>
+    <div class="flex-container accountInfoContainer">
+        <div class="flex-container accountInfo">
             <img src="{PROFILEPIC}" alt="{NAME}'s profile picture" class="">
-            <a href="{USERPAGE}" target="_blank" id="titleName"><h5>{NAME} {SURNAME}</h5></a>
+            <a href="{USERPAGE}" target="_blank" class="titleName"><h5>{NAME} {SURNAME}</h5></a>
         </div>
-        <p id="accountLogin">{USERLOGIN}</p>
+        <p class="accountLogin">{USERLOGIN}</p>
     </div>
         <form method="POST" action="addPost.php" enctype="multipart/form-data">
             <div class="flex-container" id="mainContainer">

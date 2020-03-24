@@ -4,7 +4,9 @@
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
           integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
     <meta name="viewport" content="width=device-width,initial-scale=1">
-    <link rel="stylesheet" href="../static/styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Nunito&display=swap" rel="stylesheet">
+    <script src="https://kit.fontawesome.com/473afe022a.js" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="static/styles/styles.css">
     <title>{NICK}'s page</title>
     <meta charset="utf-8">
 </head>
@@ -32,6 +34,29 @@
 </div>
 <div class="flex-container profile-content" id="profile-content"></div>
 <button onclick="loadPics()" class="btn btn-sm btn-secondary loadmore" id="loadmore">Load more</button>
+
+<div class="underlay"></div>
+
+<div id="openImageViewver" class="imgViewer">
+    <div class="flex-container content">
+        <div class="flex-container photo"></div>
+        <div class="flex-container phInfo">
+            <div class="flex-container author-info">
+                <div><img src="./uploads/ilja.vlasov2012@yandex.ru/php8HACnX" alt="{NICK}'s profile picture" CLASS="profile-pic-sm"></div>
+                <a href="profile.php?id={USERLOGIN}" target="_blank" class="link-sm"><p>{NAME} {SURNAME}</p></a>
+            </div>
+            <label>12.02.2020 12:22</label>
+            <div class="flex-container" id="likes">
+                <i class="fa fa-heart-o fa-lg" aria-hidden="true"></i>
+                <i class="fa fa-heart-o fa-lg" aria-hidden="true"></i>
+                <i class="fa fa-heart-o fa-lg" aria-hidden="true"></i>
+                <i class="fa fa-heart-o fa-lg" aria-hidden="true"></i>
+                <i class="fa fa-heart-o fa-lg" aria-hidden="true"></i>
+            </div>
+            <div class="flex-container" is="comments"></div>
+        </div>
+    </div>
+</div>
 <script type="text/javascript">
     var offset = 0;
     var sessionId = "{SESSION}";

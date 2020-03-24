@@ -3,7 +3,7 @@
 session_start();
 
 if (!isset($_SESSION['logged']) || !isset($_SESSION['username'])) {
-  require_once ('TemplateMaker.php');
+  require_once('../internal/TemplateMaker.php');
   Template::AddPathValue('index', 'static/startpage.html');
   $mainPage = new Template('index');
   echo $mainPage;

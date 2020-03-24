@@ -22,7 +22,7 @@ try {
         if (count($elements) != 0) {
             $content = "";
             foreach ($elements as $element) {
-                $content .= '<img src="' . $element['path'] . '" alt="'. $element['phid'] . '"></a>';
+                $content .= "<div style=\"background-image: url(${element['path']})\" class='ph'></div>";
             }
             $msg = ['loaded' => count($elements), 'message' => $content];
         } else {
