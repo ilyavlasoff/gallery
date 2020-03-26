@@ -1,24 +1,41 @@
 <?php
 
-session_start();
+require_once '../vendor/autoload.php';
 
-if (!isset($_SESSION['logged']) || !isset($_SESSION['username'])) {
-  require_once('../internal/TemplateMaker.php');
-  Template::AddPathValue('index', 'static/startpage.html');
-  $mainPage = new Template('index');
-  echo $mainPage;
+
+use Symfony\Component\Routing\RequestContext;
+use Symfony\Component\Routing\Router;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\Routing\Generator\UrlGenerator;
+use Symfony\Component\Config\FileLocator;
+use Symfony\Component\Routing\Loader\YamlFileLoader;
+use Symfony\Component\Routing\Exception\ResourceNotFoundException;
+
+
+try {
+    $cfgDir = '../config';
+    $routesCfgFile = 'routes.yaml';
+    $locator = new FileLocator(array($cfgDir));
+
+    $rqContext = new RequestContext();
+    $request = Request::createFromGlobals();
+    $rqContext ->fromRequest($request);
+
+    $router = new Router (
+        new YamlFileLoader($locator),
+        $routesCfgFile,
+        array('cache_dir' => __DIR__.'/cache'),
+        $rqContext
+    );
+
+    $params = $router->match($rqContext->getPathInfo());
+    $controller = $params['controller'];
+    list($controller, $function) = explode('::', $controller);
+    $controller = new $controller($request);
+    $response = $controller->$function($params);
+    $response->send();
+
 }
-else
-{
-  $identify = ($_SESSION['usrAgent'] === $_SERVER['HTTP_USER_AGENT'] &&
-  $_SESSION['remAddr'] === $_SERVER['REMOTE_ADDR'] &&
-  $_SESSION['forwardedFor'] === $_SERVER['HTTP_X_FORWARDED_FOR']);
-
-  if ($identify) {
-      header("Location: profile.php?id=${_SESSION['username']}");
-  }
-  else {
-      header('Location: login.php');
-  }
+catch (ResourceNotFoundException $ex) {
+    echo $ex->getMessage();
 }
-

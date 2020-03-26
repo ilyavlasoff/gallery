@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+          integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <link href="https://fonts.googleapis.com/css2?family=Nunito&display=swap" rel="stylesheet">
+    <script src="https://kit.fontawesome.com/473afe022a.js" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="./static/styles/styles.css">
+    <title>Register</title>
+    <meta charset="utf-8">
+  </head>
+  <body>
+  <?=$header?>
+    <div class="flex-container main-container">
+      <h1 class="page-title">Login</h1>
+      <div class="flex-container bordered-container reglog-container ">
+        <form method="POST" action="register.php">
+          <div class="d-flex flex-column">
+            <input type="text" name="username" class="form-control sp-input" placeholder="Name" id="username" value="<?=$username?>">
+            <input type="text" name="login" class="form-control sp-input" placeholder="E-mail" id="email" value="<?=$login?>">
+            <input type="text" name="nick" class="form-control sp-input" placeholder="Nickname" id="nick" value="<?=$nick?>">
+            <input type="password" name="passwd" class="form-control sp-input" placeholder="Password" id="passwd" value="<?=$password?>">
+            <input type="password" name="passwdRep" class="form-control sp-input" placeholder="Repeat password" id="passwd2" value="<?=$passwrep?>">
+            <div class="form-check">
+              <input type="checkbox" name="rulesAgree" class="form-check-input" id="persDataAgree">
+              <label class="form-check-label" for="persDataAgree">Accept the <a href="" target="_blank">privacy policy</a></label>
+            </div>
+            <button type="submit" name="submit" class="btn btn-outline-primary mb-2 w-50 cent-button" id="submitButton">Log in</button>
+          </div>
+        </form>
+        <p class="err"><?=$bottomLabel?></p>
+        <hr>
+        <a href="login.php" target="_self"><button type="button" class="btn btn-link mb-2 w-100 btn-sm" id="goToLoginBut" onclick="goToLogin()">Already have an account? Log in</button></a>
+      </div>
+    </div>
+    <?=$footer?>
+  </body>
+</html>
