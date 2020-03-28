@@ -2,21 +2,21 @@
 <script src="https://kit.fontawesome.com/473afe022a.js" crossorigin="anonymous"></script>
 <div class="flex header">
     <div class="logo-container">
-        <a href="index.php" target="_self"><img src="" alt="picplace"></a>
+        <a href="/" target="_self"><img src="" alt="picplace"></a>
     </div>
     <div class="flex action-container">
-    <?php if($param['logged']) {?>
+    <?php if($logged) {?>
         <div class="flex form-container">
             <div>
                 <input type="search" placeholder=" Search...">
                 <button type="submit"><i class="fas fa-search"></i></button>
             </div>
         </div>
-        <a href="" target="_self">Your page</a>
-        <a href="" target="">Log out</a>
+        <a href="/profile/<?=$login?>" target="_self">Your page</a>
+        <a href="/logout" target="">Log out</a>
     <?php } else { ?>
-        <!--a href="" target="_self">Login</a>
-        <a href="" target="_self">Register</a-->
+        <a href="/login" target="_self">Login</a>
+        <a href="/register" target="_self">Register</a>
     <?php } ?>
     </div>
 </div>

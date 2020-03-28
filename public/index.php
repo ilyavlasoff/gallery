@@ -1,7 +1,7 @@
 <?php
 
 require_once '../vendor/autoload.php';
-
+define('root', realpath(__DIR__ . '/../'));
 
 use Symfony\Component\Routing\RequestContext;
 use Symfony\Component\Routing\Router;

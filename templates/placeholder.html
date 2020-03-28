@@ -4,24 +4,18 @@
         <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
               integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
         <meta name="viewport" content="width=device-width,initial-scale=1">
-        <link rel="stylesheet" href="./static/styles/styles.css">
+        <link rel="stylesheet" href="/styles.css">
         <link href="https://fonts.googleapis.com/css2?family=Nunito&display=swap" rel="stylesheet">
         <script src="https://kit.fontawesome.com/473afe022a.js" crossorigin="anonymous"></script>
         <title>Error</title>
         <meta charset="utf-8">
-        <style>
-
-        </style>
     </head>
     <body>
         <?=$header?>
-            <h1><?=$error?></h1>
-            <button class="btn btn-primary" onclick="goToMain()">Main page</button>
+            <div class="flex-container accountInfoContainer">
+                <h1 class="page-title"><?=$error?></h1>
+                <a href="/" target="_self"><button class="btn btn-primary cent-button">Main page</button></a>
+            </div>
         <?=$footer?>
     </body>
-    <script type="text/javascript">
-        function goToMain() {
-            window.location.replace('index.php');
-        }
-    </script>
 </html>

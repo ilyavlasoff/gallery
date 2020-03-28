@@ -2,7 +2,9 @@
 
 namespace App\lib\db;
 
-use App\db\DBConnector as DBConnector;
+use App\lib\db\DBConnector;
+use PDO;
+use Symfony\Component\Config\Definition\Exception\Exception;
 
 class DBExecutor {
 
@@ -53,7 +55,7 @@ class DBExecutor {
         return $expr->rowCount();
     }
 
-    public static function UpdateNick(string $user, string $nick) : int{
+    public static function UpdateNick(string $user, string $nick) : int {
         if (!self::CheckUserExists($user)) {
             throw new Exception("User $user doesn't exists");
         }
@@ -81,7 +83,7 @@ class DBExecutor {
         else return $result[0];
     }
 
-    public static function GetPosts(string $user, int $quan, int $offset, string $mode): array
+    public static function GetPosts(string $user, int $quan, int $offset): array
     {
         if (!self::CheckUserExists($user)) {
             throw new Exception("User $user doesn't exists");
@@ -130,11 +132,11 @@ class DBExecutor {
         }
     }
 
-    public static function AddPhoto(string $login, string $path, string $description): int {
+    public static function AddPhoto(string $login, string $path, string $description, \DateTime $dt): int {
         if (!self::CheckUserExists($login)) {
             throw new Exception("User doesn't exists");
         }
-        $timestr = date('Y.m.d h:i:s');
+        $timestr = $dt->format('Y.m.d h:i:s');
         $expr = self::GetPdo()->prepare('INSERT INTO photo VALUES (default, :path, :owner, :descr, :addedtime)');
         $expr->execute(['path' => $path, 'owner' => $login, 'descr' => $description, 'addedtime' => $timestr]);
         return $expr->rowCount();

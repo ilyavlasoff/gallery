@@ -3,7 +3,9 @@
     namespace App\lib\websites;
 
     use App\lib\entities;
+    use App\lib\validators\LoginValidator;
     use App\templates\TemplateBuilder;
+    use Symfony\Component\Config\Definition\Exception\Exception;
     use Symfony\Component\HttpFoundation\Response;
     use Symfony\Component\HttpFoundation\Request;
     use Symfony\Component\HttpFoundation\Session\Session;
@@ -17,35 +19,47 @@ class login {
         $session->start();
         $req = Request::createFromGlobals();
 
+        if ($session->has('auth')) {
+            $login = $session->get('auth')->login;
+            $resp = new RedirectResponse("/profile/$login");
+            return $resp;
+        }
+
         if ($req->request->has('submit')) {
 
             $login = $req->request->get('login');
             $passwd = $req->request->get('passwd');
 
-            if ($verLogin = verify($login, 'email') && $verPasswd = verify($passwd, 'password')) {
+            $savedParams = [
+                'header' => new TemplateBuilder('header.html', ['logged' => false]),
+                'login' => $login, 'password' => $passwd
+            ];
 
-
-                if (DBExecutor::CheckUserRegistred($login, $passwd)) {
-                    $_SESSION['logged'] = true;
-                    $_SESSION['username'] = $login;
-                    $_SESSION['usrAgent'] = $_SERVER['HTTP_USER_AGENT'];
-                    $_SESSION['remAddr'] = $_SERVER['REMOTE_ADDR'];
-                    $_SESSION['forwardedFor'] = $_SERVER['HTTP_X_FORWARDED_FOR'];
-                    header("Location: profile.php?id=$login");
-                }
-                else {
-                    $errLoginpage = new Template('login', ['LOGIN'=> $login, 'BOTTOMLABEL' => "Account $login does'nt exists or password incorrect"]);
-                    echo $errLoginpage;
-                }
-            }
-            else {
-                $errLoginpage = new Template('login', ['LOGIN'=> $login, 'PASSWORD' => $passwd, 'BOTTOMLABEL' => 'Your data in incorrect']);
-                echo $errLoginpage;
+            $validator = new LoginValidator();
+            $errors = $validator->validate($req->request->all());
+            if (!empty($errors)) {
+                $msg = implode('<br>', $errors);
+                $savedParams['bottomLabel'] = $msg;
+                $page = new TemplateBuilder('login.html', $savedParams);
+                return new Response('Submit = (' . $req->request->get('submit') . ')<br>' . strval($page));
             }
 
+            try {
+                $user = entities\User::loginUserFromDB($login, $passwd);
+                $session->set('auth', $user);
+                $resp = new RedirectResponse("/profile/$login");
+                return $resp;
+            }
+            catch (Exception $ex) {
+                $savedParams['bottomLabel'] = "A problem has occured:".$ex->getMessage();
+                $page = new TemplateBuilder('login.html', $savedParams);
+                return new Response(strval($page));
+            }
         }
         else {
-            $page = new TemplateBuilder('login.html', ['bottomLabel' => 'Hello!']);
+            $page = new TemplateBuilder('login.html', [
+                'header' => new TemplateBuilder('header.html', ['logged' => false])
+            ]);
             return new Response(strval($page));
         }
     }

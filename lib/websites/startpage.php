@@ -31,7 +31,9 @@ class startpage
         }
         else
         {
-            $template = new TemplateBuilder('startpage.html');
+            $template = new TemplateBuilder('startpage.html', [
+                new TemplateBuilder('header.html', ['logged' => false])
+            ]);
             return new Response($template);
         }
     }

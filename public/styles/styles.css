@@ -1,7 +1,7 @@
 * {
     font-family: 'Nunito', sans-serif;
 }
-.body {
+body {
     width: 100%;
 }
 .flex-container {
@@ -62,8 +62,9 @@ p {
     justify-content: center;
     flex-direction: column;
 }
-.ph-container > button {
-    margin-top: 2vw;
+.ph-container > .edit-btn-container {
+    flex-direction: row;
+    justify-content: center;
 }
 .profile-text-info {
     margin-left: 8vw;
@@ -75,7 +76,7 @@ p {
 .profile-text-info > .nick-container > h1 {
     font-size: 40px;
 }
-.profile-text-info > .nick-container > #operbut {
+#operbut {
     margin-left: 4vw;
     height: 30px;
 }

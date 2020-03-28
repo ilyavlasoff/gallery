@@ -2,7 +2,9 @@
 
 namespace App\lib\db;
 
-require_once "../internal/ConfigReader.php";
+use App\lib\ConfReaders;
+use Symfony\Component\Config\Definition\Exception\Exception;
+use PDO;
 
 class DBConnector {
     /*
@@ -18,15 +20,15 @@ class DBConnector {
     public static function CreateDboInstance(string $pathToConfig = ""): PDO
     {
         try {
-            $confReader = new ConfigReader($pathToConfig);
-            $host = $confReader->getValue("host");
-            $port = $confReader->getValue("port");
-            $db = $confReader->getValue("db");
-            $username = $confReader->getValue("username");
-            $password = $confReader->getValue("passwd");
+            $reader = new ConfReaders\YamlConfigReader('dbconf.yaml');
+            $host = $reader->get("host");
+            $port = $reader->get("port");
+            $db = $reader->get("db");
+            $username = $reader->get("username");
+            $password = $reader->get("passwd");
         }
-        catch (Exception $e) {
-            print "Error!: " . $e->getMessage() . "<br/>";
+        catch (Exception $ex) {
+            print "Error!: " . $ex->getMessage() . "<br/>";
             die();
         }
         $dsn="pgsql:host={$host};port={$port};dbname={$db};user={$username};password={$password}";

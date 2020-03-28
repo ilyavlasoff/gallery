@@ -6,16 +6,16 @@
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <link href="https://fonts.googleapis.com/css2?family=Nunito&display=swap" rel="stylesheet">
     <script src="https://kit.fontawesome.com/473afe022a.js" crossorigin="anonymous"></script>
-    <link rel="stylesheet" href="./static/styles/styles.css">
+    <link rel="stylesheet" href="/styles.css">
     <title>Register</title>
     <meta charset="utf-8">
   </head>
   <body>
   <?=$header?>
     <div class="flex-container main-container">
-      <h1 class="page-title">Login</h1>
+      <h1 class="page-title">Register</h1>
       <div class="flex-container bordered-container reglog-container ">
-        <form method="POST" action="register.php">
+        <form method="POST" action="/register">
           <div class="d-flex flex-column">
             <input type="text" name="username" class="form-control sp-input" placeholder="Name" id="username" value="<?=$username?>">
             <input type="text" name="login" class="form-control sp-input" placeholder="E-mail" id="email" value="<?=$login?>">
@@ -31,7 +31,7 @@
         </form>
         <p class="err"><?=$bottomLabel?></p>
         <hr>
-        <a href="login.php" target="_self"><button type="button" class="btn btn-link mb-2 w-100 btn-sm" id="goToLoginBut" onclick="goToLogin()">Already have an account? Log in</button></a>
+        <a href="/login" target="_self"><button type="button" class="btn btn-link mb-2 w-100 btn-sm" id="goToLoginBut" onclick="goToLogin()">Already have an account? Log in</button></a>
       </div>
     </div>
     <?=$footer?>

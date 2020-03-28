@@ -7,7 +7,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Nunito&display=swap" rel="stylesheet">
     <script src="https://kit.fontawesome.com/473afe022a.js" crossorigin="anonymous"></script>
     <meta charset="utf-8">
-    <link rel="stylesheet" href="./static/styles/styles.css">
+    <link rel="stylesheet" href="/styles.css">
     <title>Account settings</title>
 </head>
 <body>
@@ -29,14 +29,14 @@
         </div>
         <div class="flex-container setter-container bordered-container" id="changeUserPic">
             <label>Change main profile picture</label>
-            <form method="POST" action="settings.php" enctype="multipart/form-data">
+            <form method="POST" action="/edit" enctype="multipart/form-data">
                 <input type="file" accept=".png, .jpg, .jpeg" name="photo"><br>
                 <button name="changePicture" type="submit" class="btn btn-sm btn-secondary submit-button" onchange="updatePicture">Change profile picture</button>
             </form>
         </div>
         <div class="flex-container setter-container bordered-container" id="changePassword">
             <label for="changePasswdForm">Change password</label>
-            <form action="settings.php" id="changePasswdForm" method="POST">
+            <form action="/edit" id="changePasswdForm" method="POST">
                 <input type="password" name="oldPasswd" class="form-control sp-input" placeholder="Old password" id="oldPasswd" value="<?=$oldPasswd?>">
                 <input type="password" name="newPasswd" class="form-control sp-input" placeholder="New password" id="newPasswd" value="<?=$newPasswd?>">
                 <input type="password" name="newPasswdRepeat" class="form-control sp-input" placeholder="Repeat password" id="newPasswdRep" value="<?=$newPasswdRep?>">
@@ -45,19 +45,19 @@
         </div>
         <div class="flex-container setter-container bordered-container" id="changeNick">
             <label for="changeNickForm">Change nickname</label>
-            <form action="settings.php" method="POST" id="changeNickForm">
+            <form action="/edit" method="POST" id="changeNickForm">
                 <input type="text" name="nick" value="<?=$nick?>" class="form-control sp-input" placeholder="Nickname" id="nickName">
                 <button type="submit" name="changeNick" class="btn btn-sm btn-secondary submit-button">Change nickname</button>
             </form>
         </div>
         <div class="flex-container setter-container bordered-container" id="changeBio">
             <label for="changeBioForm">Change bio</label>
-            <form action="settings.php" method="POST" id="changeBioForm">
+            <form action="/edit" method="POST" id="changeBioForm">
                 <textarea name="bio" class="form-control" placeholder="Account description" id="bioArea" rows="3"><?=$bio?></textarea>
                 <button type="submit" name="changeBio" class="btn btn-sm btn-secondary submit-button">Change bio</button>
             </form>
         </div>
-        <a href="profile.php?id=<?=$login?>"  target="_self"><button type="button" class="btn btn-primary cent-button">Go to your page</button></a>
+        <a href="/profile/<?=$login?>"  target="_self"><button type="button" class="btn btn-primary cent-button">Go to your page</button></a>
     </div>
     <?=$footer?>
 </body>
