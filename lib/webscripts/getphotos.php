@@ -2,7 +2,6 @@
 
 namespace App\lib\webscripts;
 
-use http\Client\Curl\User;
 use Symfony\Component\Config\Definition\Exception\Exception;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Session\Session;
@@ -32,7 +31,7 @@ class GetPhotos {
                 $posts = $user->getPosts($quan, $offset);
                 $content = "";
                 foreach ($posts as $element) {
-                    $content .= "<div style=\"background-image: url(/image/".$page . "/" . $element->pathOrig . "/300*)\" class='ph'></div>";
+                    $content .= "<div style=\"background-image: url(/image/".$page . "/" . $element->pathOrig . "/*400)\" class='ph' id='" . $element->id . "'></div>";
                 }
                 $msg = ['loaded' => count($posts), 'message' => $content];
             }

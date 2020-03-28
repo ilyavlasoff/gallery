@@ -35,6 +35,19 @@ class Imageloader {
                 imageSaveAlpha($img, true);
                 break;
         }
+        if ($size === 'orig') {
+            ob_start();
+            readfile($fullname);
+            $file = ob_get_contents();
+            return new Response(
+                $file,
+                Response::HTTP_OK,
+                [
+                    'Content-type' => $mime,
+                    'Content-length' => filesize($fullname)
+                ]
+            );
+        }
         list($w, $h) = explode('*', $size);
         if (!is_numeric($w) && !is_numeric($h)) {
             return new Response("", Response::HTTP_BAD_REQUEST);
@@ -79,7 +92,7 @@ class Imageloader {
     }
 
     public static function getDefaultImage(string $filename): Response {
-        $fullname = self::$defaultPath . "$filename";
+        $fullname = self::$defaultPath . $filename;
         if (!file_exists($fullname)) {
             return new Response("", Response::HTTP_BAD_REQUEST);
         }

@@ -45,33 +45,38 @@ class User {
     }
 
     public static function createUser(string $_login, string $_passwd, string $_name, string $_surname,
-                                      string $_nick, string $_bio = "", string $_profilePic = ""): user {
+                                      string $_nick, string $_profilePic = "", string $_bio = ""): user {
         if (DBExecutor::CheckUserExists($_login)) {
             throw new Exception("User $_login is already exists");
         }
-        $user = new User($_login, $_name, $_surname, $_nick, $_bio, $_profilePic);
-        $user->authorized = true;
         if (DBExecutor::RegisterNewUser($_login, $_passwd, $_name, $_surname, $_nick) !== 1) {
             throw new Exception("Cannot register user $_login");
         }
-        $uploadRootDir = "../uploads/". $_login;
+        $uploadRootDir = root . "/uploads/". $_login;
         if (!is_dir($uploadRootDir))
             mkdir($uploadRootDir);
         if ($_bio) {
             DBExecutor::UpdateBio($_login, $_bio);
         }
-        if ($_profilePic) {
-            /*
-             * ДОБАВИТЬ СОХРАНЕНИЕ ПУТИ К АВАТАРУ
-             */
+        $userDir = root . '/uploads/' . $_login;
+        $realpath = $userDir . '/' . $_profilePic;
+        if (!$exist = is_file($realpath) || !is_readable($realpath)) {
+            $defaultPath = root . '/public/media/userplaceholder.png';
+            $_profilePic =  md5(uniqid(rand(), true)) . '.png';
+            $exist = copy($defaultPath, $userDir . '/' .$_profilePic);
         }
+        if ($exist) {
+            DBExecutor::UpdateUserpic($_login, $_profilePic);
+        }
+        $user = new User($_login, $_name, $_surname, $_nick, $_bio, $_profilePic);
+        $user->authorized = true;
         return $user;
     }
 
     public static function getUserFromDB(string $_login): user {
         $userdata = DBExecutor::GetUserInfo($_login);
         $user = new User($userdata['login'], $userdata['name'], $userdata['surname'], $userdata['nick'],
-            $userdata['bio'] ?? "", $userdata['profilePicPath'] ?? "");
+            $userdata['bio'] ?? "", $userdata['profilepicpath'] ?? "");
         $user->authorized = false;
         return $user;
     }
@@ -97,6 +102,14 @@ class User {
         $filename = md5(uniqid(rand(), true)) . '.' . $file->getClientOriginalExtension();
         $filedir = root . '/uploads/' . $this->login;
         return Post::CreateNewPost($file, $filename, $filedir, $comment, $this->login);
+    }
+
+    public function updatePassword(string $old, string $passwd): bool {
+        var_dump($old);
+        if(!DBExecutor::CheckUserRegistred($this->login, $old)) {
+            throw new Exception('Old password is not valid');
+        }
+        return DBExecutor::ChangePassword($this->login, $passwd);
     }
 
     public function checkSubscription(User $other): bool {
@@ -128,6 +141,24 @@ class User {
         }
     }
 
+    public function updateProfilePic(UploadedFile $file): bool {
+        $filename = md5(uniqid(rand(), true)) . '.' . $file->getClientOriginalExtension();
+        $filedir = root . '/uploads/' . $this->login;
+        $errno = $file->getError();
+        if($errno !== UPLOAD_ERR_OK) {
+            throw new Exception("Error: ". $file->getErrorMessage());
+        }
+        if (!is_dir($filedir)) {
+            throw new Exception("Error. User's storage not exists");
+        }
+        $file->move($filedir, $filename);
+        $res = DBExecutor::UpdateUserpic($this->login, $filename);
+        if ($res) {
+            $this->profilePicPath = $filename;
+        }
+        return $res;
+    }
+
     public function subscribeTo(User $other): bool {
         if (!self::checkSubscription($other)) {
             DBExecutor::Subscribe($this->login, $other->login, false);
@@ -150,5 +181,12 @@ class User {
             $posts[] = new \App\lib\entities\Post($post['phid'], $post['path'], $post['description'], $this->login, $post['addtime']);
         }
         return $posts;
+    }
+
+    public function getMarkOnPost(Post $post): int {
+        if(!DBExecutor::CheckPostExsists($post->id)) {
+            throw new Exception("Post doesn't exists");
+        }
+        return DBExecutor::GetMarksByUser($post->id, $this->login);
     }
 }

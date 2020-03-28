@@ -3,6 +3,8 @@
 namespace App\lib\websites;
 
 use App\lib\entities;
+use App\lib\validators\PasswordValidator;
+use App\lib\validators\PostValidator;
 use App\templates\TemplateBuilder;
 use Symfony\Component\Config\Definition\Exception\Exception;
 use Symfony\Component\HttpFoundation\Response;
@@ -22,25 +24,43 @@ class Settings {
         }
 
         $user = $session->get('auth');
-        $args = [
-            'header' => new TemplateBuilder('header.html', [
-                'logged' => true,
-                'login' => $user->login
-            ]),
-            'name' => $user->name,
-            'surname' => $user->surname,
-            'login' => $user->login,
-            'profilePic' => $user->profilePicPath,
-            'userpage' => 'profile.php?id=' . $user->login,
-            'bio' => $user->bio,
-            'nick' => $user->nickname
-        ];
+        $args = [];
 
         if ($req->request->has('changePicture')) {
-            return new Response('No ok');
+            $file = $req->files->get('photo');
+            $validator = new PostValidator();
+            $errors = $validator->validate(['photo' => $file, 'comment' => '']);
+            if (empty($errors)) {
+                try {
+                    $user->updateProfilePic($file);
+                    $args['info'] = "Photo updated";
+                }
+                catch (Exception $ex) {
+                    $args['err'] = "Error occured: " . $ex->getMessage();
+                }
+            }
+            else {
+                $args['err'] = implode('<br>', $errors);
+            }
         }
         elseif ($req->request->has('changePasswd')) {
-            return new Response('No ok');
+            $old = htmlspecialchars(strip_tags(trim($req->request->get('oldPasswd'))));
+            $new = htmlspecialchars(strip_tags(trim($req->request->get('newPasswd'))));
+            $duplicate = htmlspecialchars(strip_tags(trim($req->request->get('newPasswdRep'))));
+            $validator = new PasswordValidator();
+            $errors = $validator->validate(['passwd' => $new, 'duplicate' => $duplicate, 'old' => $old]);
+            if (empty($errors)) {
+                try {
+                    $user->updatePassword($old, $new);
+                    $args['info'] = "Password updated";
+                }
+                catch (Exception $ex) {
+                    $args['err'] = "Error: " . $ex->getMessage();
+                }
+            }
+            else {
+                $args['err'] = implode('<br>', $errors);
+            }
         }
         elseif ($req->request->has('changeNick')) {
             $nick = htmlspecialchars(strip_tags(trim($req->request->get('nick'))));
@@ -63,51 +83,22 @@ class Settings {
             }
         }
 
+        $args = array_merge($args, [
+            'header' => new TemplateBuilder('header.html', [
+                'logged' => true,
+                'login' => $user->login
+            ]),
+            'name' => $user->name,
+            'surname' => $user->surname,
+            'login' => $user->login,
+            'profilePic' => $user->profilePicPath,
+            'userpage' => 'profile.php?id=' . $user->login,
+            'bio' => $user->bio,
+            'nick' => $user->nickname
+        ]);
+
         $template = new TemplateBuilder('settings.html', $args);
         return new Response(strval($template));
     }
 }
 
-function ChangeProfilePicture() {
-    $uploadRootDir = './uploads/';
-    $fileMaxSize = '100000000000';
-    $fileAllowMimeTypes = ['image/jpg', 'image/jpeg', 'image/png'];
-    $file = $_FILES['photo'];
-    if ($file['error'] !== 0) {
-        displayPage(['ERROR' => 'File was not attached']);
-    }
-    if ($file['size'] >= $fileMaxSize) {
-        displayPage(['ERROR' => "File is too big. File size: ${file['size']}, max file size $fileMaxSize"]);
-    }
-    if (array_key_exists($file['type'], $fileAllowMimeTypes)) {
-        displayPage(['ERROR' => "You can not upload files with extension ${file['type']}"]);
-    }
-    $uploadPath = $uploadRootDir . $_SESSION['username' . 'logo'];;
-    if(file_exists($uploadPath)) {
-        unlink($uploadPath);
-    }
-    if (!move_uploaded_file($file['tmp_name'], $uploadPath)) {
-        displayPage(['ERROR' => "Can not upload file"]);
-    }
-    displayPage(['INFO' => 'Profile picture changed successfully']);
-}
-
-function ChangePasswd() {
-    if(!isset($_POST['oldPasswd']) || !isset($_POST['newPasswd']) || !isset($_POST['newPasswdRepeat'])) {
-        displayPage(['ERROR' => "Password fields weren't filled correctly"]);
-    }
-    /*
-     * ДОБАВИТЬ ПРОВЕРКУ ПАРОЛЯ НА СООТВЕТВИЕ
-     */
-    if ($_POST['newPasswd'] !== $_POST['newPasswdRepeat']) {
-        displayPage(['ERROR' => "Repeat new password correctly"]);
-    }
-    try {
-        $count = DBExecutor::ChangePassword($_SESSION['username'], $_POST['oldPasswd'], $_POST['newPasswd']);
-        if ($count != 1) throw new Exception();
-    }
-    catch (Exception $ex) {
-        displayPage(['ERROR' => "Can not change password. Try again later"]);
-    }
-    displayPage(['INFO' => 'Password was updated']);
-}

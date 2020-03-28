@@ -18,7 +18,7 @@
 <h1 class="page-title">Add a new post</h1>
 <div class="flex-container accountInfoContainer">
     <div class="flex-container accountInfo">
-        <img src="<?=$userpic?>" alt="<?=$name?>'s profile picture" class="">
+        <img src="/image/<?=$userlogin . '/' . $profilePic?>/200*200" alt="<?=$name?>'s profile picture" class="">
         <a href="<?=$pageUrl?>" target="_blank" class="titleName"><h5><?=$name . ' ' . $surname?></h5></a>
     </div>
     <p class="accountLogin"><?=$login?></p>
@@ -26,7 +26,7 @@
 <form method="POST" action="/newpost" enctype="multipart/form-data">
     <div class="flex-container" id="mainContainer">
         <div class="flex-container" id="previewContainer">
-            <img src="./static/media/noimage.png" alt="No photo" id="previewImage">
+            <img src="/image/0/noimage.png/full" alt="No photo" id="previewImage">
             <label for="previewImage">Image preview</label>
         </div>
         <div id="inputField">
@@ -44,6 +44,9 @@
         </div>
     </div>
 </form>
+<div class="flex-container footer">
+    <label>Photogallery Picplace 2020</label>
+</div>
 <script type="text/javascript" src="showPreview.js"></script>
 </body>
 </html>

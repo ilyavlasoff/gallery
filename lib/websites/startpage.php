@@ -15,7 +15,7 @@ class startpage
         $session = new Session();
         $session->start();
 
-        if ($user = $session->get('user'))
+        if ($user = $session->get('auth'))
         {
             if ($user instanceof entities\user && $user->checkCorrectServerParams())
             {
@@ -32,7 +32,7 @@ class startpage
         else
         {
             $template = new TemplateBuilder('startpage.html', [
-                new TemplateBuilder('header.html', ['logged' => false])
+                'header' => new TemplateBuilder('header.html', ['logged' => false])
             ]);
             return new Response($template);
         }

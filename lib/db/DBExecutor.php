@@ -43,15 +43,17 @@ class DBExecutor {
         return $expr->rowCount();
     }
 
-    public static function ChangePassword(string $login, string $oldPasswd, string $newPasswd): int
+    public static function ChangePassword(string $login, string $newPasswd): bool
     {
-        if (self::CheckUserRegistred($login, $oldPasswd) === 0)
-        {
-            throw new Exception("User $login is not exists");
-        }
         $newPasswdHash = password_hash($newPasswd,  PASSWORD_BCRYPT);
         $expr=self::GetPdo()->prepare('UPDATE usr SET hpasswd=:newPasswd WHERE login=:login');
         $expr->execute(['newPasswd' => $newPasswdHash, 'login' => $login]);
+        return $expr->rowCount();
+    }
+
+    public static function UpdateUserpic(string $user, string $path): bool {
+        $expr = self::GetPdo()->prepare('UPDATE usr SET profilePicPath=:path WHERE login=:login');
+        $expr->execute(['path' => $path, 'login' => $user]);
         return $expr->rowCount();
     }
 
@@ -151,29 +153,32 @@ class DBExecutor {
         return $expr->fetchColumn();
     }
 
-    public static function GetPhotoFullData(string $phId): array {
-        $response = [];
-        $expr = self::GetPdo()->prepare('SELECT phId, path, ownerLogin, description, addTime FROM photo WHERE phId=:phId');
+    public static function CheckPostExsists(string $phId): bool {
+        $expr = self::GetPdo()->prepare('SELECT COUNT(*)FROM photo WHERE phId=:phId');
         $expr->execute(['phId' => $phId]);
-        $res = $expr->fetch(PDO::FETCH_ASSOC);
-        if (!$res) {
-            throw new Exception('Photo doesnt exists');
-        }
-        else {
-            array_merge($response, $res);
-        }
-        $marksExpr = self::GetPdo()->prepare('SELECT AVG(value) as avgmarks from mark WHERE phId=:phId');
-        $marksExpr->execute(['phId' => $phId]);
-        array_merge($response, $marksExpr->fetchColumn());
-        $commentsExpr = self::GetPdo()->prepare('SELECT userId, text, date FROM comment where phId=:phId');
-        $commentsExpr->execute(['phId' => $phId]);
-        array_merge($response, $marksExpr->fetch(PDO::FETCH_ASSOC));
-        $ownerExpr = self::GetPdo()->prepare('SELECT name, surname, nick FROM usr WHERE login=:ownerLogin');
-        $ownerExpr->execute(['ownerLogin' => $res['ownerLogin']]);
-        $res = $ownerExpr->fetch();
-        if ($res) {
-            array_merge($response, $res);
-        }
-        return $response;
+        return $expr->fetchColumn();
     }
+
+    public static function GetPhotoDataById(string $phId): array {
+        $expr = self::GetPdo()->prepare('SELECT path, ownerLogin, description, addTime FROM photo WHERE phId=:phId');
+        $expr->execute(['phId' => $phId]);
+        return $expr->fetch(PDO::FETCH_ASSOC);
+    }
+
+    public static function GetMarksStat(string $phId): array {
+        $marksExpr = self::GetPdo()->prepare('SELECT AVG(value) as avgmarks, COUNT(value) as countmarks from mark WHERE phId=:phId');
+        $marksExpr->execute(['phId' => $phId]);
+        return $marksExpr->fetch(PDO::FETCH_ASSOC);
+    }
+
+    public static  function GetMarksByUser(string $phId, string $login): int {
+        $expr = self::GetPdo()->prepare('SELECT value FROM mark WHERE userId=:user AND phId=:photo');
+        $expr->execute(['user' => $login, 'photo' => intval($phId)]);
+        return $expr->fetchColumn();
+    }
+
+    //$commentsExpr = self::GetPdo()->prepare('SELECT userId, text, date FROM comment where phId=:phId');
+    //$commentsExpr->execute(['phId' => $phId]);
+    //array_merge($response, $marksExpr->fetch(PDO::FETCH_ASSOC));
+
 }

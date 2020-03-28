@@ -15,7 +15,7 @@
 <div class="flex-container">
     <div class="flex-container profile-header">
         <div class="flex-container ph-container">
-            <img src="<?=$profilePic?>" alt="<?=$nick?>'s profile picture" class="profile-pic">
+            <img src="/image/<?=$pageId?>/<?=$profilePic?>/orig" alt="<?=$nick?>'s profile picture" class="profile-pic">
             <?php if($own) { ?>
             <div class="flex-container edit-btn-container"><a href="/newpost" target="_self">
                 <button class="btn btn-secondary btn-sm">Add post</button>
@@ -44,17 +44,19 @@
 <div class="flex-container profile-content" id="profile-content"></div>
 <button onclick="loadPics()" class="btn btn-sm btn-secondary loadmore" id="loadmore">Load more</button>
 
-<div class="underlay" style="display: none;"></div>
+<div class="underlay nodisplay" id="underlay"></div>
 
-<div id="openImageViewver" class="imgViewer" style="display: none;">
+<div id="openImageViewver" class="imgViewer nodisplay">
     <div class="flex-container content">
-        <div class="flex-container photo"></div>
+        <div class="flex-container photo" id="picture"></div>
         <div class="flex-container phInfo">
             <div class="flex-container author-info">
-                <div><img src="./uploads/ilja.vlasov2012@yandex.ru/php8HACnX" alt="<?=$nick?>'s profile picture" class="profile-pic-sm"></div>
-                <a href="profile.php?id=<?=$login?>" target="_blank" class="link-sm"><p><?=$name . ' ' . $surname?></p></a>
+                <div><img id="profilepic" class="profile-pic-sm"></div>
+                <a target="_blank" class="link-sm" id="ownerLink"><p id="ownerName"></p></a>
             </div>
-            <label>12.02.2020 12:22</label>
+            <label id="date"></label>
+            <label id="marksCount"></label>
+            <label id="marksMean"></label>
             <div class="flex-container" id="likes">
                 <i class="fa fa-heart-o fa-lg" aria-hidden="true"></i>
                 <i class="fa fa-heart-o fa-lg" aria-hidden="true"></i>
@@ -62,15 +64,19 @@
                 <i class="fa fa-heart-o fa-lg" aria-hidden="true"></i>
                 <i class="fa fa-heart-o fa-lg" aria-hidden="true"></i>
             </div>
-            <div class="flex-container" is="comments"></div>
+            <div class="flex-container" id="comments"></div>
         </div>
     </div>
+</div>
+<div class="flex-container footer">
+    <label>Photogallery Picplace 2020</label>
 </div>
 <script type="text/javascript">
     var pageId = "<?=$pageId?>";
 </script>
 <script src="/ajax.js" type="text/javascript"></script>
 <script src="/showPosts.js" type="text/javascript"></script>
+<script src="/showFullPost.js" type="text/javascript"></script>
 <?php if(!$own) {?>
 <script src="/subscription.js" type="text/javascript"></script>
 <?php } ?>

@@ -32,6 +32,11 @@ p {
 /*
 Для login и register
  */
+.startpic {
+    width: 60%;
+    height: auto;
+    margin: auto;
+}
 .reglog-container {
     margin-top: 150px;
     flex-direction: column;
@@ -63,6 +68,7 @@ p {
     flex-direction: column;
 }
 .ph-container > .edit-btn-container {
+    margin-top: 5px;
     flex-direction: row;
     justify-content: center;
 }
@@ -271,4 +277,45 @@ p {
     color: #b3b3b3;
     letter-spacing: 3px;
     line-height: 1.5;
+}
+.nodisplay {
+    display: none;
+}
+.block-show {
+    display: block;
+    animation: showBlock 0.1s linear forwards;
+}
+@keyframes showBlock {
+    0% {
+        opacity: 0;
+    }
+    100% {
+        opacity: 1;
+    }
+}
+.underlay-show{
+    display: block;
+    animation: showUnderlay 0.1s linear forwards;
+}
+@keyframes showUnderlay {
+    0% {
+        opacity: 0;
+    }
+    100% {
+        opacity: 0.5;
+    }
+}
+
+.contain-fit {
+    object-fit: contain;
+}
+
+.footer {
+    width: 70%;
+    margin: auto;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    height: 50px;
+    margin-top: 200px;
 }

@@ -12,10 +12,17 @@
     <meta charset="utf-8">
 </head>
 <body>
-<?=$header?>
+    <?=$header?>
     <h1 class="page-title">Welcome to Picplace! Log in or register now!</h1>
-    <a href="/register" target="_self"><button type="button" onclick="redirect('/register')" class="btn btn-outline-dark">Register</button></a>
-    <a href="/login" target="_self"><button type="button" onclick="redirect('/login')" class="btn btn-outline-dark">Log in</button></a>
-<?=$footer?>
+    <div class="flex-container main-container">
+        <img src="/image/0/color.png/full" alt="color" class="startpic">
+        <div>
+            <a href="/register" target="_self"><button type="button" onclick="redirect('/register')" class="btn btn-outline-dark">Register</button></a>
+            <a href="/login" target="_self"><button type="button" onclick="redirect('/login')" class="btn btn-outline-dark">Log in</button></a>
+        </div>
+    </div>
+    <div class="flex-container footer">
+        <label>Photogallery Picplace 2020</label>
+    </div>
 </body>
 </html>

@@ -8,7 +8,7 @@ use Symfony\Component\Validator\Constraints\Collection;
 class PostValidator extends AbstractValidator
 {
 
-    protected function GetConstraints(): Collection
+    protected function GetConstraints($param): Collection
     {
         return new Collection([
             'photo' => $this->getFileRules(),

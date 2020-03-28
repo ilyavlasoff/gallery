@@ -57,7 +57,7 @@ class register {
             try {
                 $user = entities\User::createUser($login, $passwd, $name, $surname, $nick);
                 $session->set('auth', $user);
-                $resp = new RedirectResponse("/profile/$login");
+                $resp = new RedirectResponse("/edit");
                 return $resp;
             } catch (Exception $ex) {
                 $savedParams['bottomLabel'] = $ex->getMessage();

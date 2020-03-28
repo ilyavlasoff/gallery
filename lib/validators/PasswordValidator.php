@@ -2,29 +2,17 @@
 
 namespace App\lib\validators;
 
-use http\Message;
 use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Component\Validator\Constraints\Collection;
 
-class LoginValidator extends AbstractValidator {
+class PasswordValidator extends AbstractValidator {
 
     protected function GetConstraints($param): Collection {
         return new Collection([
-            'login' => $this->getLoginRules(),
             'passwd' => $this->getPasswdRules(),
-            'submit' => $this->getSubmitRules()
+            'duplicate' => $this->getDuplicateRules($param),
+            'old' => $this->getOldPasswdRules($param)
         ]);
-    }
-
-    private function getLoginRules(): array {
-        return [
-            new Assert\NotBlank([
-                'message' => 'Email can not be empty'
-            ]),
-            new Assert\Email([
-                'message' => 'The email {{ value }} is not valid'
-            ])
-        ];
     }
 
     private function getPasswdRules(): array {
@@ -42,10 +30,26 @@ class LoginValidator extends AbstractValidator {
         ];
     }
 
-    private function getSubmitRules(): array {
+    private function getDuplicateRules($param): array {
         return [
-            new Assert\Blank([
-                'message' => 'Click submit button'
+            new Assert\NotBlank([
+                'message' => 'Field can not be empty'
+            ]),
+            new Assert\EqualTo([
+                'value' => $param['passwd'],
+                'message' => 'Duplicate password is not equal to first'
+            ])
+        ];
+    }
+
+    private function getOldPasswdRules($param): array {
+        return [
+            new Assert\NotBlank([
+                'message' => 'Field can not be empty'
+            ]),
+            new Assert\NotEqualTo([
+                'value' => $param['passwd'],
+                'message' => 'New password can not be as same as old'
             ])
         ];
     }

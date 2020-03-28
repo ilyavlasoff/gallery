@@ -15,7 +15,7 @@
     <h1 class="page-title">Account settings</h1>
     <div class="flex-container accountInfoContainer">
         <div class="flex-container accountInfo">
-            <img src="<?=$profilePic?>" alt="<?=$name?>'s profile picture" class="">
+            <img src="/image/<?=$login?>/<?=$profilePic?>/200*200" alt="<?=$name?>'s profile picture" class="">
             <a href="<?=$userpage?>" target="_blank" class="titleName"><h5><?=$name . ' ' . $surname?></h5></a>
         </div>
         <p class="accountLogin"><?=$login?></p>
@@ -59,6 +59,8 @@
         </div>
         <a href="/profile/<?=$login?>"  target="_self"><button type="button" class="btn btn-primary cent-button">Go to your page</button></a>
     </div>
-    <?=$footer?>
+    <div class="flex-container footer">
+        <label>Photogallery Picplace 2020</label>
+    </div>
 </body>
 </html>

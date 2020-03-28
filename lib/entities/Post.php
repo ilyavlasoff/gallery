@@ -44,6 +44,32 @@ class Post {
         }
     }
 
+    public static function getPostFromDb(string $id): Post {
+        if (!DBExecutor::CheckPostExsists($id)) {
+            throw new Exception("Error. Post $id doesn't exists");
+        }
+        try
+        {
+            $data = DBExecutor::GetPhotoDataById($id);
+            return new Post($id, $data['path'], $data['description'], $data['ownerlogin'], $data['addtime']);
+        }
+        catch (\Exception $ex) {
+            throw new Exception("Error. Can not load post");
+        }
+    }
+
+    public function getPostStat(): array {
+        if (!DBExecutor::CheckPostExsists($this->id)) {
+            throw new Exception("Error. Post doesn't exists");
+        }
+        try
+        {
+            return DBExecutor::GetMarksStat($this->id);
+        }
+        catch (Exception $ex) {
+            throw new Exception("Error. Can not load post");
+        }
+    }
 
     public function __get($name)
     {
