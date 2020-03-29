@@ -29,6 +29,7 @@ p {
     text-align: center;
     margin-top: 4vw;
 }
+
 /*
 Для login и register
  */
@@ -37,11 +38,26 @@ p {
     height: auto;
     margin: auto;
 }
+@media screen and (max-device-width: 600px){
+    .startpic {
+        position: relative;
+        width: 200%;
+        height: auto;
+        transform: translate(-25%, -10%);
+        z-index: -1;
+    }
+}
 .reglog-container {
     margin-top: 150px;
     flex-direction: column;
     width: 30%;
     justify-content: center;
+}
+
+@media screen and (max-device-width: 600px){
+    .reglog-container {
+        width: 90%;
+    }
 }
 /*
 Для userpage.html
@@ -122,6 +138,34 @@ p {
     background-position-y: 50%;
 }
 
+@media screen and (max-device-width: 600px){
+    .profile-content {
+        width: 100%;
+    }
+    .profile-pic {
+        width: 70px;
+        height: 70px;
+    }
+    .profile-text-info > .nick-container > h1 {
+        font-size: 26px;
+    }
+    .profile-text-info > #stat > p {
+        font-size: 12px;
+        margin-right: 3vw;
+    }
+    .profile-content > .ph {
+        width: 30vw;
+        height: 30vw;
+        margin: 3px;
+    }
+    .profile-text-info > #bio {
+        font-size: 12px;
+    }
+    .profile-text-info h4 {
+        font-size: 16px;
+    }
+}
+
 /*
 для settings и addpost
  */
@@ -185,12 +229,24 @@ p {
     color: black;
     font-size: 20px;
 }
-
 .cent-button {
     margin: auto;
     margin-top: 15px;
 }
-
+@media screen and (max-device-width: 600px) {
+    .setter-container {
+        width: 95%;
+    }
+    #titleLink > h5{
+        font-size: 16px;
+    }
+    .page-title {
+        font-size: 24px;
+    }
+    .accountInfo h5 {
+        font-size: 18px;
+    }
+}
 /*
 Для addpost.html
  */
@@ -213,6 +269,17 @@ p {
     margin-left: 2vw;
 }
 
+@media screen and (max-device-width: 600px) {
+    #mainContainer {
+        flex-direction: column;
+        width: 95%;
+        margin: auto;
+    }
+    #addPhotoButton {
+        margin: auto;
+        display: block;
+    }
+}
 
 .imgViewer {
     position: fixed;
@@ -237,24 +304,40 @@ p {
     z-index: 0;
     background-color: black;
 }
+.content {
+    display: flex;
+    height: 100%;
+}
 .photo {
-    position: absolute;
     height: 100%;
     width: 75%;
     border-radius: 5px;
-    left: 0;
-    top: 0;
     background-color: #000000;
     z-index: 1001;
     align-items: center;
     justify-content: center;
 }
 .phInfo {
-    position: absolute;
-    top: 15px;
-    left: 77%;
     flex-direction: column;
-    width: 20%;
+    width: 25%;
+    padding: 15px;
+    overflow: scroll;
+}
+.contain-fit {
+    max-height: 100%;
+    max-width: 100%;
+}
+@media screen and (max-device-width: 800px) {
+    .content {
+        flex-direction: column;
+    }
+    .photo {
+        width: 100%;
+        max-height: 70%;
+    }
+    .phInfo {
+        width: 100%;
+    }
 }
 .profile-pic-sm {
     display: block;
@@ -306,9 +389,7 @@ p {
     }
 }
 
-.contain-fit {
-    object-fit: contain;
-}
+
 
 .footer {
     width: 70%;
@@ -336,3 +417,4 @@ p {
 .comment b {
     color: #292929
 }
+
