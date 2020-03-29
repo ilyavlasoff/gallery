@@ -31,7 +31,7 @@ class GetPhotos {
                 $posts = $user->getPosts($quan, $offset);
                 $content = "";
                 foreach ($posts as $element) {
-                    $content .= "<div style=\"background-image: url(/image/".$page . "/" . $element->pathOrig . "/*400)\" class='ph' id='" . $element->id . "'></div>";
+                    $content .= "<div style=\"background-image: url(/image/".$page . "/" . $element->pathOrig . "/sm)\" class='ph' id='" . $element->id . "'></div>";
                 }
                 $msg = ['loaded' => count($posts), 'message' => $content];
             }
