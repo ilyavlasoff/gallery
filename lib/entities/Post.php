@@ -71,6 +71,31 @@ class Post {
         }
     }
 
+    public function setMarkByUser(User $usr, $value) {
+        if (!DBExecutor::CheckUserExists($usr->login)) {
+            throw new Exception("Error. Post doesn't exists");
+        }
+        try
+        {
+            if(DBExecutor::GetMarksByUser($this->id, $usr->login)) {
+                DBExecutor::ChangeMark($this->id, $usr->login, $value);
+            }
+            else {
+                DBExecutor::SetMark($this->id, $usr->login, $value);
+            }
+        }
+        catch (Exception $ex) {
+            throw new Exception("Error. Can not load post");
+        }
+    }
+
+    public function getMarkByUser(User $usr): int {
+        if(!DBExecutor::CheckUserExists($usr->login)) {
+            throw new Exception("Post doesn't exists");
+        }
+        return DBExecutor::GetMarksByUser($this->id, $usr->login);
+    }
+
     public function __get($name)
     {
         if (isset($this->$name)) {

@@ -95,7 +95,7 @@ class User {
     }
 
     public function checkCorrectServerParams(): bool {
-
+        return true;
     }
 
     public function addPost(UploadedFile $file, string $comment): Post {
@@ -105,7 +105,6 @@ class User {
     }
 
     public function updatePassword(string $old, string $passwd): bool {
-        var_dump($old);
         if(!DBExecutor::CheckUserRegistred($this->login, $old)) {
             throw new Exception('Old password is not valid');
         }
@@ -183,10 +182,4 @@ class User {
         return $posts;
     }
 
-    public function getMarkOnPost(Post $post): int {
-        if(!DBExecutor::CheckPostExsists($post->id)) {
-            throw new Exception("Post doesn't exists");
-        }
-        return DBExecutor::GetMarksByUser($post->id, $this->login);
-    }
 }

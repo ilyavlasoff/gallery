@@ -177,8 +177,16 @@ class DBExecutor {
         return $expr->fetchColumn();
     }
 
-    //$commentsExpr = self::GetPdo()->prepare('SELECT userId, text, date FROM comment where phId=:phId');
-    //$commentsExpr->execute(['phId' => $phId]);
-    //array_merge($response, $marksExpr->fetch(PDO::FETCH_ASSOC));
+    public static function SetMark(string $postId, string $userId, int $value): int {
+        $marksExpr = self::GetPdo()->prepare('INSERT INTO mark VALUES (:userId, :phId, :value)');
+        $marksExpr->execute(['userId' => $userId, 'phId' => $postId, 'value' => $value]);
+        return $marksExpr->rowCount();
+    }
+
+    public static function ChangeMark(string $postId, string $userId, int $value): int {
+        $marksExpr = self::GetPdo()->prepare('UPDATE mark SET value=:value WHERE userId=:userId and phId=:phId');
+        $marksExpr->execute(['userId' => $userId, 'phId' => $postId, 'value' => $value]);
+        return $marksExpr->rowCount();
+    }
 
 }

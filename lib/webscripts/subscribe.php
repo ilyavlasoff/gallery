@@ -16,7 +16,7 @@ class Subscribe {
         $req = Request::createFromGlobals();
 
         if (!$session->has('auth')) {
-            return new Response("Authorization required", Response::HTTP_UNAUTHORIZED);
+            return new Response(json_encode(['error' =>"Authorization required"]), Response::HTTP_UNAUTHORIZED);
         }
 
         $subTo = $req->get('to');

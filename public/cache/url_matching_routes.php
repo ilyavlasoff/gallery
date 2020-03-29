@@ -17,6 +17,7 @@ return [
         '/subscribe' => [[['_route' => 'subscribe_route', 'controller' => 'App\\lib\\controller\\Controller::subscribeCall'], null, null, null, false, false, null]],
         '/getphotos' => [[['_route' => 'getphotos_route', 'controller' => 'App\\lib\\controller\\Controller::getphotosCall'], null, null, null, false, false, null]],
         '/post' => [[['_route' => 'post_route', 'controller' => 'App\\lib\\controller\\Controller::getFullPostCall'], null, null, null, false, false, null]],
+        '/mark' => [[['_route' => 'mark_route', 'controller' => 'App\\lib\\controller\\Controller::markCall'], null, null, null, false, false, null]],
     ],
     [ // $regexpList
         0 => '{^(?'

@@ -46,7 +46,7 @@ class Settings {
         elseif ($req->request->has('changePasswd')) {
             $old = htmlspecialchars(strip_tags(trim($req->request->get('oldPasswd'))));
             $new = htmlspecialchars(strip_tags(trim($req->request->get('newPasswd'))));
-            $duplicate = htmlspecialchars(strip_tags(trim($req->request->get('newPasswdRep'))));
+            $duplicate = htmlspecialchars(strip_tags(trim($req->request->get('newPasswdRepeat'))));
             $validator = new PasswordValidator();
             $errors = $validator->validate(['passwd' => $new, 'duplicate' => $duplicate, 'old' => $old]);
             if (empty($errors)) {

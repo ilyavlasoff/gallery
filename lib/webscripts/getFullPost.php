@@ -29,18 +29,19 @@ class GetFullPost
             if (!User::isUserExists($owner)) {
                 throw new Exception("User $owner doesn't exists");
             }
-            $yourMark = $session->get('auth')->getMarkOnPost($post);
+            $yourMark = $post->getMarkByUser($session->get('auth'));
             $user = User::getUserFromDB($owner);
             $stat = $post->getPostStat();
             $body = [
                 'path' => '/image/' . $user->login . '/' . $post->pathOrig . '/orig',
-                'profilePicPath' => $user->profilePicPath,
+                'profilePicPath' => '/image/' . $user->login . '/' . $user->profilePicPath . '/orig',
                 'ownerLink' => '/profile/' . $user->login,
                 'ownerName' => $user->name . ' ' . $user->surname,
                 'date' => $post->time->format('d-m-Y H:i'),
-                'marksCount' => $stat['countmarks'],
-                'marksAvg' => $stat['avgmarks'],
-                'yourMark' => $yourMark
+                'marksCount' => intval($stat['countmarks']),
+                'marksAvg' => round(floatval($stat['avgmarks']),2),
+                'yourMark' => intval($yourMark),
+                'description' => $post->comment
             ];
         }
         catch (Exception $ex) {

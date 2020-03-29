@@ -319,3 +319,20 @@ p {
     height: 50px;
     margin-top: 200px;
 }
+.red {
+    color: darkred;
+}
+.gray {
+    color: gray;
+}
+.comment {
+    overflow: hidden;
+    margin-top: 5px;
+}
+.comment p {
+    font-size: 13px;
+    color: #424242;
+}
+.comment b {
+    color: #292929
+}

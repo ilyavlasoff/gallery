@@ -14,7 +14,7 @@ class AuthorizeValudator extends AbstractValidator {
             'username' => $this->getUsernameRules(),
             'nick' => $this->getNickRules(),
             'passwd' => $this->getPasswdRules(),
-            'passwdRep' => $this->getPasswdRepRules(),
+            'passwdRep' => $this->getPasswdRepRules($param),
             'rulesAgree' => $this->getConfRules(),
             'submit' => $this->getSubmitRules()
         ]);
@@ -58,11 +58,11 @@ class AuthorizeValudator extends AbstractValidator {
         ];
     }
 
-    private function getPasswdRepRules(): array {
+    private function getPasswdRepRules($param): array {
         return [
-            new Assert\Regex([
-                'pattern' => '/(?=^.{8,}$)((?=.*\d)|(?=.*\W+))(?![.\n])(?=.*[A-Z])(?=.*[a-z]).*$/',
-                'message' => 'Password may contains A-Z,a-z words, digits, symbols. Length 8+ symbols'
+            new Assert\EqualTo([
+                'value' => $param['passwd'],
+                'message' => 'Duplicate password is not equal to first'
             ]),
         ];
     }

@@ -13,6 +13,7 @@ use App\lib\webscripts\imageloader;
 use App\lib\webscripts\subscribe;
 use App\lib\webscripts\getphotos;
 use App\lib\webscripts\getFullPost;
+use App\lib\webscripts\mark;
 
 use Symfony\Component\HttpFoundation\Response;
 
@@ -50,5 +51,8 @@ class Controller {
     }
     public static function getFullPostCall(): Response {
         return getFullPost::call();
+    }
+    public static function markCall(): Response {
+        return mark::call();
     }
 }
