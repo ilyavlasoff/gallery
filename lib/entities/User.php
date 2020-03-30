@@ -182,4 +182,13 @@ class User {
         return $posts;
     }
 
+    public function getSubscriptionsPosts(int $quan, int $offset) {
+        $data = DBExecutor::GetPostsofSubscriptions($this->login, $quan, $offset);
+        $posts = [];
+        foreach ($data as $post) {
+            $posts[] = new \App\lib\entities\Post($post['phid'], $post['path'], $post['description'], $post['ownerlogin'], $post['addtime']);
+        }
+        return $posts;
+    }
+
 }

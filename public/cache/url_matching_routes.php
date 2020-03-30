@@ -18,6 +18,8 @@ return [
         '/getphotos' => [[['_route' => 'getphotos_route', 'controller' => 'App\\lib\\controller\\Controller::getphotosCall'], null, null, null, false, false, null]],
         '/post' => [[['_route' => 'post_route', 'controller' => 'App\\lib\\controller\\Controller::getFullPostCall'], null, null, null, false, false, null]],
         '/mark' => [[['_route' => 'mark_route', 'controller' => 'App\\lib\\controller\\Controller::markCall'], null, null, null, false, false, null]],
+        '/newsline' => [[['_route' => 'newsline_route', 'controller' => 'App\\lib\\controller\\Controller::newslineCall'], null, null, null, false, false, null]],
+        '/getnewsline' => [[['_route' => 'getnewsline_route', 'controller' => 'App\\lib\\controller\\Controller::getNewslineCall'], null, null, null, false, false, null]],
     ],
     [ // $regexpList
         0 => '{^(?'

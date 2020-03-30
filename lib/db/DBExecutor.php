@@ -189,4 +189,10 @@ class DBExecutor {
         return $marksExpr->rowCount();
     }
 
+    public static function GetPostsofSubscriptions(string $userId, int $count, $offset): array {
+        $marksExpr = self::GetPdo()->prepare('SELECT phid, path, description, addtime, ownerlogin FROM photo WHERE ownerlogin IN (
+            SELECT login FROM subs WHERE sublogin = :userId) ORDER BY addtime DESC LIMIT :quan OFFSET :offset');
+        $marksExpr->execute(['userId' => $userId, 'quan' => $count, 'offset' => $offset]);
+        return $marksExpr->fetchAll(PDO::FETCH_ASSOC);
+    }
 }

@@ -8,12 +8,14 @@ use App\lib\websites\register;
 use App\lib\websites\profile;
 use App\lib\websites\settings;
 use App\lib\websites\addPost;
+use App\lib\websites\newsline;
 use App\lib\webscripts\logout;
 use App\lib\webscripts\imageloader;
 use App\lib\webscripts\subscribe;
 use App\lib\webscripts\getphotos;
 use App\lib\webscripts\getFullPost;
 use App\lib\webscripts\mark;
+use App\lib\webscripts\getNewsLine;
 
 use Symfony\Component\HttpFoundation\Response;
 
@@ -54,5 +56,12 @@ class Controller {
     }
     public static function markCall(): Response {
         return mark::call();
+    }
+    public static function newslineCall(): Response {
+        return newsline::render();
+    }
+
+    public static function getNewslineCall(): Response {
+        return getNewsLine::call();
     }
 }
