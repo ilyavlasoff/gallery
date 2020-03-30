@@ -28,12 +28,12 @@ class register {
 
         if ($req->request->has('submit')) {
 
-            $username = $req->request->get('username');
-            $login = $req->request->get('login');
-            $passwd = $req->request->get('passwd');
-            $passwdRep = $req->request->get('passwdRep');
-            $nick = $req->request->get('nick');
-            $rulesAgree = $req->request->get('rulesAgree');
+            $username = htmlspecialchars(strip_tags(trim($req->request->get('username'))));
+            $login = htmlspecialchars(strip_tags(trim($req->request->get('login'))));
+            $passwd = htmlspecialchars(strip_tags(trim($req->request->get('passwd'))));
+            $passwdRep = htmlspecialchars(strip_tags(trim($req->request->get('passwdRep'))));
+            $nick = htmlspecialchars(strip_tags(trim($req->request->get('nick'))));
+            $rulesAgree = htmlspecialchars(strip_tags(trim($req->request->get('rulesAgree'))));
 
             $savedParams = [
                 'header' => new TemplateBuilder('header.html', ['logged' => false]),
@@ -59,7 +59,7 @@ class register {
                 $session->set('auth', $user);
                 $resp = new RedirectResponse("/edit");
                 return $resp;
-            } catch (Exception $ex) {
+            } catch (\Exception $ex) {
                 $savedParams['bottomLabel'] = $ex->getMessage();
                 $errRegpage = new TemplateBuilder('register.html', $savedParams);
                 return new Response(strval($errRegpage));

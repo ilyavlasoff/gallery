@@ -19,7 +19,6 @@ class Profile {
 
         $session = new Session();
         $session->start();
-        $req = Request::createFromGlobals();
 
         // если вход не выполнен, переадресация на главную страницу
         if (!$session->has('auth')) {
@@ -54,7 +53,7 @@ class Profile {
             $postsCount = $user->getPostsCount();
             list($incomingSubs, $outcomingSubs) = $user->subscribeQuanInfo();
         }
-        catch (Exception $ex) {
+        catch (\Exception $ex) {
             return new Response("Can not load page:" . $ex->getMessage());
         }
 

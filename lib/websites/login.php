@@ -27,8 +27,8 @@ class login {
 
         if ($req->request->has('submit')) {
 
-            $login = $req->request->get('login');
-            $passwd = $req->request->get('passwd');
+            $login = htmlspecialchars(strip_tags(trim($req->request->get('login'))));
+            $passwd = htmlspecialchars(strip_tags(trim($req->request->get('passwd'))));
 
             $savedParams = [
                 'header' => new TemplateBuilder('header.html', ['logged' => false]),
@@ -50,7 +50,7 @@ class login {
                 $resp = new RedirectResponse("/profile/$login");
                 return $resp;
             }
-            catch (Exception $ex) {
+            catch (\Exception $ex) {
                 $savedParams['bottomLabel'] = "A problem has occured:".$ex->getMessage();
                 $page = new TemplateBuilder('login.html', $savedParams);
                 return new Response(strval($page));

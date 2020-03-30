@@ -9,6 +9,7 @@ use App\lib\websites\profile;
 use App\lib\websites\settings;
 use App\lib\websites\addPost;
 use App\lib\websites\newsline;
+use App\lib\websites\finder;
 use App\lib\webscripts\logout;
 use App\lib\webscripts\imageloader;
 use App\lib\webscripts\subscribe;
@@ -63,5 +64,9 @@ class Controller {
 
     public static function getNewslineCall(): Response {
         return getNewsLine::call();
+    }
+
+    public static function findCall(): Response {
+        return finder::render();
     }
 }

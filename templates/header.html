@@ -1,5 +1,6 @@
 <link href="https://fonts.googleapis.com/css2?family=Nunito&display=swap" rel="stylesheet">
 <script src="https://kit.fontawesome.com/473afe022a.js" crossorigin="anonymous"></script>
+<link rel="stylesheet" href="/header.css">
 <div class="flex header">
     <div class="logo-container">
         <a href="/" target="_self"><img src="" alt="picplace"></a>
@@ -7,10 +8,10 @@
     <div class="flex action-container">
     <?php if($logged) {?>
         <div class="flex form-container">
-            <div>
-                <input type="search" placeholder=" Search...">
-                <button type="submit"><i class="fas fa-search"></i></button>
-            </div>
+            <form method="POST" action="/find">
+                <input type="search" placeholder=" Search..." name="criteria">
+                <button type="submit" name="submit"><i class="fas fa-search"></i></button>
+            </form>
         </div>
         <a href="/newsline" target="_self">Newsline</a>
         <a href="/profile/<?=$login?>" target="_self">Your page</a>
@@ -23,44 +24,4 @@
 </div>
 <style>
 
-    .logo-container {
-        width: 25%;
-    }
-    .flex {
-        display: flex;
-        justify-content: left;
-    }
-    .header {
-        width: 70%;
-        margin: auto;
-        flex-direction: row;
-        align-items: center;
-        height: 50px;
-    }
-    .header a {
-        text-decoration: none;
-        color: #424242;
-        margin-left: 15px;
-        font-size: 16px;
-    }
-     .form-container {
-        align-items: center;
-        flex-direction: column;
-    }
-    .header > .action-container {
-        width: 75%;
-        justify-content: right;
-        align-items: center;
-    }
-    .header input {
-        border-radius: 10px;
-        width: 200px;
-        border: 1px solid #b3b3b3;
-        outline: none;
-        height: 25px;
-    }
-    .header button {
-        background: none;
-        border: none;
-    }
 </style>

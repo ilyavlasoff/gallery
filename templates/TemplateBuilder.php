@@ -20,7 +20,7 @@ class TemplateBuilder {
     {
         extract($this->params, EXTR_OVERWRITE);
         ob_start();
-        require_once $this->filename;
+        require $this->filename;
         $page = ob_get_clean();
         return $page;
     }

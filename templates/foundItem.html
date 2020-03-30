@@ -1,0 +1,16 @@
+<div class="found-item">
+    <img src="<?=$profilePic?>" alt="<?=$name?>'s profile picrure" class="avatar">
+    <div class="found-item-text">
+        <div class="found-account-info">
+            <a href="<?=$profileLink?>" target="_self" class="profile-link"><h5><?=$name . ' ' . $surname?></h5></a>
+            <p class="found-item-info"><?=$login?></p>
+            <p class="found-item-info"><?=$postsCount?> <i class="fas fa-images"></i>
+                <?=$inSubsCount?> <i class="fas fa-caret-down"></i> <?=$outSubsCount?> <i class="fas fa-caret-up"></i></p>
+        </div>
+        <?php if($isSubscr) { ?>
+        <button type="button" class="btn btn-primary btn-sm sub-button" onclick="subscribe(<?=$login?>)">Subscribe</button>
+        <?php } else { ?>
+        <button type="button" class="btn btn-secondary btn-sm sub-button" onclick="subscribe(<?=$login?>)">Subscribed</button>
+        <?php }?>
+    </div>
+</div>

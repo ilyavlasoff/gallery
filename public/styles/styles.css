@@ -29,10 +29,6 @@ p {
     text-align: center;
     margin-top: 4vw;
 }
-
-/*
-Для login и register
- */
 .startpic {
     width: 60%;
     height: auto;
@@ -59,9 +55,6 @@ p {
         width: 90%;
     }
 }
-/*
-Для userpage.html
-*/
 .profile-header {
     align-items: center;
     margin: auto;
@@ -137,7 +130,6 @@ p {
     background-position-x: 50%;
     background-position-y: 50%;
 }
-
 @media screen and (max-device-width: 600px){
     .profile-content {
         width: 100%;
@@ -165,11 +157,6 @@ p {
         font-size: 16px;
     }
 }
-
-/*
-для settings и addpost
- */
-
 .accountInfoContainer {
     margin-top: 2vw;
     align-items: center;
@@ -197,11 +184,6 @@ p {
     text-decoration: none;
     color: #000;
 }
-
-/*
-Для settings
- */
-
 .main-container {
     justify-content: center;
     flex-direction: column;
@@ -247,10 +229,6 @@ p {
         font-size: 18px;
     }
 }
-/*
-Для addpost.html
- */
-
 #previewImage {
     width: 400px;
     height: 400px;
@@ -268,7 +246,6 @@ p {
 #inputField {
     margin-left: 2vw;
 }
-
 @media screen and (max-device-width: 600px) {
     #mainContainer {
         flex-direction: column;
@@ -280,7 +257,6 @@ p {
         display: block;
     }
 }
-
 .imgViewer {
     position: fixed;
     top: 50%;
@@ -339,6 +315,12 @@ p {
         width: 100%;
     }
 }
+.red {
+    color: darkred;
+}
+.gray {
+    color: gray;
+}
 .profile-pic-sm {
     display: block;
     width: 40px;
@@ -388,9 +370,6 @@ p {
         opacity: 0.5;
     }
 }
-
-
-
 .footer {
     width: 70%;
     margin: auto;
@@ -399,12 +378,6 @@ p {
     align-items: center;
     height: 50px;
     margin-top: 200px;
-}
-.red {
-    color: darkred;
-}
-.gray {
-    color: gray;
 }
 .comment {
     overflow: hidden;
@@ -417,4 +390,133 @@ p {
 .comment b {
     color: #292929
 }
+.finder-container {
+    width: 70%;
+    margin: auto;
+}
+.findstring-contaiter {
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+}
+.find-button {
+    width: 100px;
+    margin-left: 10px;
+}
+.profile-link > h5 {
+    text-decoration: none;
+    color: black;
+    font-size: 22px;
+}
+#found-result-container {
+    width: 800px;
+    margin: auto;
+    padding-top: 20px;
 
+}
+.errstring {
+    text-align: center;
+    color: #424242;
+    margin-top: 10px;
+}
+.found-item {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: stretch;
+    margin-top: 10px;
+    padding: 10px;
+    border: 1px solid #b3b3b3;
+    border-radius: 7px;
+    overflow: hidden;
+}
+.avatar {
+    width: 70px;
+    height: 70px;
+    border-radius: 70px;
+}
+.found-item-info {
+    color: #424242;
+    font-size: 14px;
+    line-height: 0;
+}
+.found-account-info {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    margin-left: 20px;
+    overflow: hidden;
+
+}
+.sub-button {
+    margin-left: auto;
+}
+.found-item-text {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    flex: 1 0 auto;
+}
+@media screen and (max-device-width: 820px) {
+    #found-result-container {
+        width: 80%;
+    }
+    .found-item-text {
+        flex-direction: column;
+    }
+    .found-account-info {
+        align-self: flex-start;
+    }
+    .sub-button {
+        align-self: flex-start;
+        margin-left: 20px;
+    }
+    .profile-link > h5 {
+        font-size: 14px;
+    }
+}
+@media screen and (max-device-width: 400px) {
+    #found-result-container {
+        width: 95%;
+    }
+}
+.logo-container {
+    width: 25%;
+}
+.flex {
+    display: flex;
+    justify-content: left;
+}
+.header {
+    width: 70%;
+    margin: auto;
+    flex-direction: row;
+    align-items: center;
+    height: 50px;
+}
+.header a {
+    text-decoration: none;
+    color: #424242;
+    margin-left: 15px;
+    font-size: 16px;
+}
+.form-container {
+    align-items: center;
+    flex-direction: column;
+}
+.header > .action-container {
+    width: 75%;
+    justify-content: right;
+    align-items: center;
+}
+.header input {
+    border-radius: 10px;
+    width: 200px;
+    border: 1px solid #b3b3b3;
+    outline: none;
+    height: 25px;
+}
+.header button {
+    background: none;
+    border: none;
+}

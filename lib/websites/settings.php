@@ -35,7 +35,7 @@ class Settings {
                     $user->updateProfilePic($file);
                     $args['info'] = "Photo updated";
                 }
-                catch (Exception $ex) {
+                catch (\Exception $ex) {
                     $args['err'] = "Error occured: " . $ex->getMessage();
                 }
             }
@@ -54,7 +54,7 @@ class Settings {
                     $user->updatePassword($old, $new);
                     $args['info'] = "Password updated";
                 }
-                catch (Exception $ex) {
+                catch (\Exception $ex) {
                     $args['err'] = "Error: " . $ex->getMessage();
                 }
             }
@@ -68,7 +68,7 @@ class Settings {
                 $user->changeNickname($nick);
                 $args['info'] = "Nick was updated";
             }
-            catch (Exception $ex) {
+            catch (\Exception $ex) {
                 $args['err'] = "Can not change nick:" . $ex->getMessage();
             }
         }
@@ -78,7 +78,7 @@ class Settings {
                 $user->changeBio($bio);
                 $args['info'] = "Bio was updated";
             }
-            catch (Exception $ex) {
+            catch (\Exception $ex) {
                 $args['err'] = "Can not change bio:" . $ex->getMessage();
             }
         }

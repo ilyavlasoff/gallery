@@ -13,7 +13,6 @@ class Newsline
     {
         $session = new Session();
         $session->start();
-        $req = Request::createFromGlobals();
 
         if (!$session->has('auth')) {
             $template = new TemplateBuilder('placeholder.html', ['error' => 'Resource is unavailable without registration']);

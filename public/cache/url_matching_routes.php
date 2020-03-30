@@ -20,6 +20,7 @@ return [
         '/mark' => [[['_route' => 'mark_route', 'controller' => 'App\\lib\\controller\\Controller::markCall'], null, null, null, false, false, null]],
         '/newsline' => [[['_route' => 'newsline_route', 'controller' => 'App\\lib\\controller\\Controller::newslineCall'], null, null, null, false, false, null]],
         '/getnewsline' => [[['_route' => 'getnewsline_route', 'controller' => 'App\\lib\\controller\\Controller::getNewslineCall'], null, null, null, false, false, null]],
+        '/find' => [[['_route' => 'finder_route', 'controller' => 'App\\lib\\controller\\Controller::findCall'], null, null, null, false, false, null]],
     ],
     [ // $regexpList
         0 => '{^(?'

@@ -94,6 +94,16 @@ class User {
         }
     }
 
+    public static function findUsers(string $pattern, int $count): array {
+        $data = DBExecutor::findUsers($pattern, $count);
+        //var_dump($data);
+        $users = [];
+        foreach ($data as $user) {
+            $users[] = new User($user['login'], $user['name'], $user['surname'], $user['nick'], strval($user['bio']), strval($user['profilepicpath']));
+        }
+        return $users;
+    }
+
     public function checkCorrectServerParams(): bool {
         return true;
     }

@@ -25,6 +25,13 @@ class DBExecutor {
         return  password_verify($passwd, $passwd_hash);
     }
 
+    public static function FindUsers(string $pattern, $count) {
+        $expr = self::GetPdo()->prepare('SELECT login, name, surname, bio, profilepicpath, nick FROM usr 
+            WHERE login LIKE :pattern OR nick LIKE :pattern LIMIT :count');
+        $expr->execute(['pattern' => "%$pattern%", 'count' => $count]);
+        return $expr->fetchAll();
+    }
+
     public static function CheckUserExists(string $username): bool {
         $expr = self::GetPdo()->prepare('SELECT count(*) FROM usr WHERE login=:login');
         $expr->execute(['login' => $username]);
