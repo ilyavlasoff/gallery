@@ -10,7 +10,7 @@ use Symfony\Component\HttpFoundation\Session\Session;
 
 class Finder
 {
-    const countToFind = 20;
+    const COUNTTOFIND = 20;
 
     public static function render(): Response
     {
@@ -42,7 +42,7 @@ class Finder
 
         if ($req->request->has('submit')) {
             try {
-                $users = User::findUsers($criteria, self::countToFind);
+                $users = User::findUsers($criteria, self::COUNTTOFIND);
                 if (count($users)) {
                     foreach ($users as $user) {
                         list($inSubs, $outSubs) = $user->subscribeQuanInfo();
@@ -63,8 +63,7 @@ class Finder
                 } else {
                     $param['error'] = 'No matches found';
                 }
-            }
-            catch (\Exception $ex) {
+            } catch (\Exception $ex) {
                 $param['error'] = 'Can not load results';
             }
         }

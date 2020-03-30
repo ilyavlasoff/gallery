@@ -2,7 +2,8 @@
 
 namespace App\templates;
 
-class TemplateBuilder {
+class TemplateBuilder
+{
     private $params = [];
     private $filename = '';
     public function __construct(string $file, array $addParams = [])
@@ -10,10 +11,12 @@ class TemplateBuilder {
         $this->filename = $file;
         $this->addParamRange($addParams);
     }
-    public function addParam($key, $value) {
+    public function addParam($key, $value)
+    {
         $this->params[$key] = $value;
     }
-    public function addParamRange(array $addParams) {
+    public function addParamRange(array $addParams)
+    {
         $this->params = array_merge($this->params, $addParams);
     }
     public function __toString()

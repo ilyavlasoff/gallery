@@ -6,9 +6,11 @@ use http\Message;
 use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Component\Validator\Constraints\Collection;
 
-class AuthorizeValudator extends AbstractValidator {
+class AuthorizeValudator extends AbstractValidator
+{
 
-    protected function GetConstraints($param): Collection {
+    protected function GetConstraints($param): Collection
+    {
         return new Collection([
             'login' => $this->getLoginRules(),
             'username' => $this->getUsernameRules(),
@@ -20,7 +22,8 @@ class AuthorizeValudator extends AbstractValidator {
         ]);
     }
 
-    private function getLoginRules(): array {
+    private function getLoginRules(): array
+    {
         return [
             new Assert\NotBlank([
                 'message' => 'Email can not be empty'
@@ -31,7 +34,8 @@ class AuthorizeValudator extends AbstractValidator {
         ];
     }
 
-    private function getUsernameRules(): array {
+    private function getUsernameRules(): array
+    {
         return [
             new Assert\NotBlank([
                 'message' => 'Field can not be empty'
@@ -43,7 +47,8 @@ class AuthorizeValudator extends AbstractValidator {
         ];
     }
 
-    private function getPasswdRules(): array {
+    private function getPasswdRules(): array
+    {
         return [
             new Assert\NotBlank([
                 'message' => 'Field can not be empty'
@@ -58,7 +63,8 @@ class AuthorizeValudator extends AbstractValidator {
         ];
     }
 
-    private function getPasswdRepRules($param): array {
+    private function getPasswdRepRules($param): array
+    {
         return [
             new Assert\EqualTo([
                 'value' => $param['passwd'],
@@ -67,7 +73,8 @@ class AuthorizeValudator extends AbstractValidator {
         ];
     }
 
-    private function getNickRules(): array {
+    private function getNickRules(): array
+    {
         return [
             new Assert\NotBlank([
                 'message' => 'Field can not be empty'
@@ -79,7 +86,8 @@ class AuthorizeValudator extends AbstractValidator {
         ];
     }
 
-    private function getConfRules(): array {
+    private function getConfRules(): array
+    {
         return [
             new Assert\EqualTo([
                 'value' => true,
@@ -88,7 +96,8 @@ class AuthorizeValudator extends AbstractValidator {
         ];
     }
 
-    private function getSubmitRules(): array {
+    private function getSubmitRules(): array
+    {
         return [
             new Assert\Blank([
                 'message' => 'Click submit button'

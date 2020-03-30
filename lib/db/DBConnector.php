@@ -6,7 +6,8 @@ use App\lib\ConfReaders;
 use Symfony\Component\Config\Definition\Exception\Exception;
 use PDO;
 
-class DBConnector {
+class DBConnector
+{
     private $pdo;
 
     public function __construct(string $filename, string $filepath = "")
@@ -18,8 +19,7 @@ class DBConnector {
             $db = $reader->get("db");
             $username = $reader->get("username");
             $password = $reader->get("passwd");
-        }
-        catch (Exception $ex) {
+        } catch (Exception $ex) {
             echo "Error!: " . $ex->getMessage() . "<br/>";
             die();
         }
@@ -31,24 +31,29 @@ class DBConnector {
         ];
         $this->pdo = new PDO($dsn, $username, $password, $options);
     }
-    private function query(string $query, array $params): \PDOStatement {
+    private function query(string $query, array $params): \PDOStatement
+    {
         $expr = $this->pdo->prepare($query);
         $expr->execute($params);
         return $expr;
     }
-    public function multirows(string $query, array $params): array {
+    public function multirows(string $query, array $params): array
+    {
         $statement = $this->query($query, $params);
         return $statement->fetchAll(PDO::FETCH_ASSOC);
     }
-    public function row(string $query, array $params): array {
+    public function row(string $query, array $params): array
+    {
         $statement = $this->query($query, $params);
         return $statement->fetch(PDO::FETCH_ASSOC);
     }
-    public function scalar(string $query, array $params) {
+    public function scalar(string $query, array $params)
+    {
         $statement = $this->query($query, $params);
         return $statement->fetchColumn();
     }
-    public function nonQuery(string $query, array $params): int {
+    public function nonQuery(string $query, array $params): int
+    {
         $statement = $this->query($query, $params);
         return $statement->rowCount();
     }

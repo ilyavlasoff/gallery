@@ -31,6 +31,6 @@ class Newsline
             'surname' => $user->surname,
             'userpage' => '/profile/' . $user->login,
         ]);
-        return new Response(strval($template), );
+        return new Response(strval($template));
     }
 }

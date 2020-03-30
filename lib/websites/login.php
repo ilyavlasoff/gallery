@@ -11,10 +11,11 @@
     use Symfony\Component\HttpFoundation\Session\Session;
     use Symfony\Component\HttpFoundation\RedirectResponse;
 
+class login
+{
 
-class login {
-
-    public static function render(): Response {
+    public static function render(): Response
+    {
         $session = new Session();
         $session->start();
         $req = Request::createFromGlobals();
@@ -26,7 +27,6 @@ class login {
         }
 
         if ($req->request->has('submit')) {
-
             $login = htmlspecialchars(strip_tags(trim($req->request->get('login'))));
             $passwd = htmlspecialchars(strip_tags(trim($req->request->get('passwd'))));
 
@@ -49,14 +49,12 @@ class login {
                 $session->set('auth', $user);
                 $resp = new RedirectResponse("/profile/$login");
                 return $resp;
-            }
-            catch (\Exception $ex) {
+            } catch (\Exception $ex) {
                 $savedParams['bottomLabel'] = "A problem has occured:".$ex->getMessage();
                 $page = new TemplateBuilder('login.html', $savedParams);
                 return new Response(strval($page));
             }
-        }
-        else {
+        } else {
             $page = new TemplateBuilder('login.html', [
                 'header' => new TemplateBuilder('header.html', ['logged' => false])
             ]);

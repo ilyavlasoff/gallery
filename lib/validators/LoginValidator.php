@@ -6,9 +6,11 @@ use http\Message;
 use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Component\Validator\Constraints\Collection;
 
-class LoginValidator extends AbstractValidator {
+class LoginValidator extends AbstractValidator
+{
 
-    protected function GetConstraints($param): Collection {
+    protected function GetConstraints($param): Collection
+    {
         return new Collection([
             'login' => $this->getLoginRules(),
             'passwd' => $this->getPasswdRules(),
@@ -16,7 +18,8 @@ class LoginValidator extends AbstractValidator {
         ]);
     }
 
-    private function getLoginRules(): array {
+    private function getLoginRules(): array
+    {
         return [
             new Assert\NotBlank([
                 'message' => 'Email can not be empty'
@@ -27,7 +30,8 @@ class LoginValidator extends AbstractValidator {
         ];
     }
 
-    private function getPasswdRules(): array {
+    private function getPasswdRules(): array
+    {
         return [
             new Assert\NotBlank([
                 'message' => 'Field can not be empty'
@@ -42,7 +46,8 @@ class LoginValidator extends AbstractValidator {
         ];
     }
 
-    private function getSubmitRules(): array {
+    private function getSubmitRules(): array
+    {
         return [
             new Assert\Blank([
                 'message' => 'Click submit button'

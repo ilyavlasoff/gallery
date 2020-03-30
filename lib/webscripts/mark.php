@@ -27,12 +27,9 @@ class Mark
         try {
             $post = Post::getPostFromDb($picId);
             $post->setMarkByUser($session->get('auth'), $value);
-            return new Response(json_encode(['message' => $value]), Response::HTTP_OK,
-                ['Content-Type' => 'application/json']);
-        }
-        catch (\Exception $ex) {
-            return new Response(json_encode(['error' => 'Can not set mark']), Response::HTTP_BAD_REQUEST,
-                ['Content-Type' => 'application/json']);
+            return new Response(json_encode(['message' => $value]), Response::HTTP_OK, ['Content-Type' => 'application/json']);
+        } catch (\Exception $ex) {
+            return new Response(json_encode(['error' => 'Can not set mark']), Response::HTTP_BAD_REQUEST, ['Content-Type' => 'application/json']);
         }
     }
 }

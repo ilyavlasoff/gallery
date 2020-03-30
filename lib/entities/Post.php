@@ -7,8 +7,8 @@ use App\lib\validators\PostValidator;
 use Symfony\Component\Config\Definition\Exception\Exception;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 
-
-class Post {
+class Post
+{
     private $id;
     private $pathOrig;
     private $comment;
@@ -24,9 +24,10 @@ class Post {
         $this->time = \DateTime::createFromFormat('Y-m-d H:i:s+', $_time);
     }
 
-    public static function CreateNewPost(UploadedFile $file, string $name, string $dir, string $comment, string $login): Post {
+    public static function CreateNewPost(UploadedFile $file, string $name, string $dir, string $comment, string $login): Post
+    {
         $errno = $file->getError();
-        if($errno !== UPLOAD_ERR_OK) {
+        if ($errno !== UPLOAD_ERR_OK) {
             throw new Exception("Error: ". $file->getErrorMessage());
         }
         if (!is_dir($dir)) {
@@ -38,59 +39,55 @@ class Post {
             $phId = DBExecutor::AddPhoto($login, $name, $comment, $curTime);
             $post = new Post($phId, $name, $comment, $login, $curTime->format('Y.m.d h:i:s'));
             return $post;
-        }
-        catch (Exception $ex) {
+        } catch (Exception $ex) {
             throw new Exception('Can not add file');
         }
     }
 
-    public static function getPostFromDb(string $id): Post {
+    public static function getPostFromDb(string $id): Post
+    {
         if (!DBExecutor::CheckPostExsists($id)) {
             throw new Exception("Error. Post $id doesn't exists");
         }
-        try
-        {
+        try {
             $data = DBExecutor::GetPhotoDataById($id);
             return new Post($id, $data['path'], $data['description'], $data['ownerlogin'], $data['addtime']);
-        }
-        catch (\Exception $ex) {
+        } catch (\Exception $ex) {
             throw new Exception("Error. Can not load post");
         }
     }
 
-    public function getPostStat(): array {
+    public function getPostStat(): array
+    {
         if (!DBExecutor::CheckPostExsists($this->id)) {
             throw new Exception("Error. Post doesn't exists");
         }
-        try
-        {
+        try {
             return DBExecutor::GetMarksStat($this->id);
-        }
-        catch (Exception $ex) {
+        } catch (Exception $ex) {
             throw new Exception("Error. Can not load post");
         }
     }
 
-    public function setMarkByUser(User $usr, $value) {
+    public function setMarkByUser(User $usr, $value)
+    {
         if (!DBExecutor::CheckUserExists($usr->login)) {
             throw new Exception("Error. Post doesn't exists");
         }
-        try
-        {
-            if(DBExecutor::GetMarksByUser($this->id, $usr->login)) {
+        try {
+            if (DBExecutor::GetMarksByUser($this->id, $usr->login)) {
                 DBExecutor::ChangeMark($this->id, $usr->login, $value);
-            }
-            else {
+            } else {
                 DBExecutor::SetMark($this->id, $usr->login, $value);
             }
-        }
-        catch (Exception $ex) {
+        } catch (Exception $ex) {
             throw new Exception("Error. Can not load post");
         }
     }
 
-    public function getMarkByUser(User $usr): int {
-        if(!DBExecutor::CheckUserExists($usr->login)) {
+    public function getMarkByUser(User $usr): int
+    {
+        if (!DBExecutor::CheckUserExists($usr->login)) {
             throw new Exception("Post doesn't exists");
         }
         return DBExecutor::GetMarksByUser($this->id, $usr->login);
@@ -100,10 +97,8 @@ class Post {
     {
         if (isset($this->$name)) {
             return $this->$name;
-        }
-        else {
+        } else {
             throw new Exception("Field $name is not defined");
         }
     }
-
 }

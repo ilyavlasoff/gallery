@@ -12,10 +12,11 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Session\Session;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 
+class Profile
+{
 
-class Profile {
-
-    public static function render($param): Response {
+    public static function render($param): Response
+    {
 
         $session = new Session();
         $session->start();
@@ -44,16 +45,14 @@ class Profile {
                 $user = $session->get('auth');
                 $own = true;
                 $subscripted = false;
-            }
-            else {
+            } else {
                 $user = entities\User::getUserFromDB($reqId);
                 $own = false;
                 $subscripted = $session->get('auth')->checkSubscription($user);
             }
             $postsCount = $user->getPostsCount();
             list($incomingSubs, $outcomingSubs) = $user->subscribeQuanInfo();
-        }
-        catch (\Exception $ex) {
+        } catch (\Exception $ex) {
             return new Response("Can not load page:" . $ex->getMessage());
         }
 

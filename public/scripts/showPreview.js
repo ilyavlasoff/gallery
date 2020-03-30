@@ -2,7 +2,8 @@ var input = document.getElementById('fileInput');
 var preview = document.getElementById('previewImage');
 var fileinfo = document.getElementById('fileInfo');
 input.addEventListener('change', photoAdd);
-function photoAdd() {
+function photoAdd()
+{
     let uploadadFile = input.files;
     while (fileinfo.firstChild) {
         fileinfo.removeChild(fileinfo.firstChild);
@@ -11,8 +12,7 @@ function photoAdd() {
         let error = document.createElement('label');
         error.innerText = 'Error loading files';
         error.style.color = "red";
-    }
-    else {
+    } else {
         let file = uploadadFile[0];
         let filename = document.createElement('label');
         filename.innerText = 'File: ' + file.name;

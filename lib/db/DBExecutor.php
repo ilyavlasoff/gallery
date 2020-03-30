@@ -6,7 +6,8 @@ use App\lib\db\DBConnector;
 use PDO;
 use Symfony\Component\Config\Definition\Exception\Exception;
 
-class DBExecutor {
+class DBExecutor
+{
     private static function getConn(): DBConnector
     {
         static $connection;

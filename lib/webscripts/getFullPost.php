@@ -39,12 +39,11 @@ class GetFullPost
                 'ownerName' => $user->name . ' ' . $user->surname,
                 'date' => $post->time->format('d-m-Y H:i'),
                 'marksCount' => intval($stat['countmarks']),
-                'marksAvg' => round(floatval($stat['avgmarks']),2),
+                'marksAvg' => round(floatval($stat['avgmarks']), 2),
                 'yourMark' => intval($yourMark),
                 'description' => $post->comment
             ];
-        }
-        catch (Exception $ex) {
+        } catch (Exception $ex) {
             $body = ['message' => "Error occured: " . $ex->getMessage()];
         }
 

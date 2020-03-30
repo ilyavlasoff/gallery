@@ -8,8 +8,8 @@ use Symfony\Component\HttpFoundation\File\UploadedFile;
 use App\lib\entities\Post;
 
 
-class User {
-
+class User
+{
     private $authorized;
     private $login;
     //private $hPasswd;
@@ -19,10 +19,9 @@ class User {
     private $bio = "";
     private $profilePicPath = "";
 
-    private function __construct (string $_login, /*string $_passwd, */string $_name, string $_surname,
-                                 string $_nick, string $_bio, string $_profilePic) {
+    private function __construct(string $_login, string $_name, string $_surname, string $_nick, string $_bio, string $_profilePic)
+    {
         $this->login = $_login;
-        //$this->hPasswd = $_passwd;
         $this->name = $_name;
         $this->surname = $_surname;
         $this->nickname = $_nick;
@@ -34,18 +33,25 @@ class User {
     {
         if (isset($this->$name)) {
             return $this->$name;
-        }
-        else {
+        } else {
             throw new Exception("Field $name is not defined");
         }
     }
 
-    public static function isUserExists(string $login): bool {
+    public static function isUserExists(string $login): bool
+    {
         return DBExecutor::CheckUserExists($login);
     }
 
-    public static function createUser(string $_login, string $_passwd, string $_name, string $_surname,
-                                      string $_nick, string $_profilePic = "", string $_bio = ""): user {
+    public static function createUser(
+        string $_login,
+        string $_passwd,
+        string $_name,
+        string $_surname,
+        string $_nick,
+        string $_profilePic = "",
+        string $_bio = ""
+    ): user {
         if (DBExecutor::CheckUserExists($_login)) {
             throw new Exception("User $_login is already exists");
         }
@@ -73,28 +79,42 @@ class User {
         return $user;
     }
 
-    public static function getUserFromDB(string $_login): user {
+    public static function getUserFromDB(string $_login): user
+    {
         $userdata = DBExecutor::GetUserInfo($_login);
-        $user = new User($userdata['login'], $userdata['name'], $userdata['surname'], $userdata['nick'],
-            $userdata['bio'] ?? "", $userdata['profilepicpath'] ?? "");
+        $user = new User(
+            $userdata['login'],
+            $userdata['name'],
+            $userdata['surname'],
+            $userdata['nick'],
+            $userdata['bio'] ?? "",
+            $userdata['profilepicpath'] ?? ""
+        );
         $user->authorized = false;
         return $user;
     }
 
-    public static function loginUserFromDB(string $_login, string $_passwd): user {
+    public static function loginUserFromDB(string $_login, string $_passwd): user
+    {
         if (!DBExecutor::CheckUserRegistred($_login, $_passwd)) {
             throw new Exception("User $_login doesn't exists or password incorrect");
-        }
-        else {
+        } else {
             $userdata = DBExecutor::GetUserInfo($_login);
-            $user = new User($userdata['login'], $userdata['name'], $userdata['surname'], $userdata['nick'],
-                $userdata['bio'] ?? "", $userdata['profilepicpath'] ?? "");
+            $user = new User(
+                $userdata['login'],
+                $userdata['name'],
+                $userdata['surname'],
+                $userdata['nick'],
+                $userdata['bio'] ?? "",
+                $userdata['profilepicpath'] ?? ""
+            );
             $user->authorized = true;
             return $user;
         }
     }
 
-    public static function findUsers(string $pattern, int $count): array {
+    public static function findUsers(string $pattern, int $count): array
+    {
         $data = DBExecutor::findUsers($pattern, $count);
         //var_dump($data);
         $users = [];
@@ -104,57 +124,66 @@ class User {
         return $users;
     }
 
-    public function checkCorrectServerParams(): bool {
+    public function checkCorrectServerParams(): bool
+    {
         return true;
     }
 
-    public function addPost(UploadedFile $file, string $comment): Post {
+    public function addPost(UploadedFile $file, string $comment): Post
+    {
         $filename = md5(uniqid(rand(), true)) . '.' . $file->getClientOriginalExtension();
         $filedir = root . '/uploads/' . $this->login;
         return Post::CreateNewPost($file, $filename, $filedir, $comment, $this->login);
     }
 
-    public function updatePassword(string $old, string $passwd): bool {
-        if(!DBExecutor::CheckUserRegistred($this->login, $old)) {
+    public function updatePassword(string $old, string $passwd): bool
+    {
+        if (!DBExecutor::CheckUserRegistred($this->login, $old)) {
             throw new Exception('Old password is not valid');
         }
         return DBExecutor::ChangePassword($this->login, $passwd);
     }
 
-    public function checkSubscription(User $other): bool {
+    public function checkSubscription(User $other): bool
+    {
         if (!self::isUserExists($this->login) || !self::isUserExists($other->login)) {
             throw new Exception("User doen't exists");
         }
         return DBExecutor::CheckSubscription($this->login, $other->login);
     }
 
-    public function getPostsCount(): int {
+    public function getPostsCount(): int
+    {
         return DBExecutor::GetPostsQuan($this->login);
     }
 
-    public function subscribeQuanInfo(): array {
+    public function subscribeQuanInfo(): array
+    {
         return DBExecutor::GetSubscriptions($this->login);
     }
 
-    public function changeNickname($value): bool {
+    public function changeNickname($value): bool
+    {
         if (DBExecutor::UpdateNick($this->login, $value) === 1) {
             $this->nickname = $value;
             return true;
         }
     }
 
-    public function changeBio($value): bool {
+    public function changeBio($value): bool
+    {
         if (DBExecutor::UpdateBio($this->login, $value) === 1) {
             $this->bio = $value;
             return true;
         }
     }
 
-    public function updateProfilePic(UploadedFile $file): bool {
+    public function updateProfilePic(UploadedFile $file): bool
+    {
         $filename = md5(uniqid(rand(), true)) . '.' . $file->getClientOriginalExtension();
         $filedir = root . '/uploads/' . $this->login;
         $errno = $file->getError();
-        if($errno !== UPLOAD_ERR_OK) {
+        if ($errno !== UPLOAD_ERR_OK) {
             throw new Exception("Error: ". $file->getErrorMessage());
         }
         if (!is_dir($filedir)) {
@@ -168,14 +197,16 @@ class User {
         return $res;
     }
 
-    public function subscribeTo(User $other): bool {
+    public function subscribeTo(User $other): bool
+    {
         if (!self::checkSubscription($other)) {
             DBExecutor::Subscribe($this->login, $other->login, false);
         }
         return self::checkSubscription($other);
     }
 
-    public function cancelSubscribe(User $other): bool {
+    public function cancelSubscribe(User $other): bool
+    {
         if (self::checkSubscription($other)) {
             DBExecutor::Subscribe($this->login, $other->login, true);
         }
@@ -192,7 +223,8 @@ class User {
         return $posts;
     }
 
-    public function getSubscriptionsPosts(int $quan, int $offset) {
+    public function getSubscriptionsPosts(int $quan, int $offset)
+    {
         $data = DBExecutor::GetPostsofSubscriptions($this->login, $quan, $offset);
         $posts = [];
         foreach ($data as $post) {
@@ -200,5 +232,4 @@ class User {
         }
         return $posts;
     }
-
 }

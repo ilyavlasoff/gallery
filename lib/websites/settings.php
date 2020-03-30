@@ -11,9 +11,11 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Session\Session;
 
-class Settings {
+class Settings
+{
 
-    public static function render(): Response {
+    public static function render(): Response
+    {
         $session = new Session();
         $session->start();
         $req = Request::createFromGlobals();
@@ -34,16 +36,13 @@ class Settings {
                 try {
                     $user->updateProfilePic($file);
                     $args['info'] = "Photo updated";
-                }
-                catch (\Exception $ex) {
+                } catch (\Exception $ex) {
                     $args['err'] = "Error occured: " . $ex->getMessage();
                 }
-            }
-            else {
+            } else {
                 $args['err'] = implode('<br>', $errors);
             }
-        }
-        elseif ($req->request->has('changePasswd')) {
+        } elseif ($req->request->has('changePasswd')) {
             $old = htmlspecialchars(strip_tags(trim($req->request->get('oldPasswd'))));
             $new = htmlspecialchars(strip_tags(trim($req->request->get('newPasswd'))));
             $duplicate = htmlspecialchars(strip_tags(trim($req->request->get('newPasswdRepeat'))));
@@ -53,32 +52,26 @@ class Settings {
                 try {
                     $user->updatePassword($old, $new);
                     $args['info'] = "Password updated";
-                }
-                catch (\Exception $ex) {
+                } catch (\Exception $ex) {
                     $args['err'] = "Error: " . $ex->getMessage();
                 }
-            }
-            else {
+            } else {
                 $args['err'] = implode('<br>', $errors);
             }
-        }
-        elseif ($req->request->has('changeNick')) {
+        } elseif ($req->request->has('changeNick')) {
             $nick = htmlspecialchars(strip_tags(trim($req->request->get('nick'))));
             try {
                 $user->changeNickname($nick);
                 $args['info'] = "Nick was updated";
-            }
-            catch (\Exception $ex) {
+            } catch (\Exception $ex) {
                 $args['err'] = "Can not change nick:" . $ex->getMessage();
             }
-        }
-        elseif ($req->request->has('changeBio')) {
+        } elseif ($req->request->has('changeBio')) {
             $bio = htmlspecialchars(strip_tags(trim($req->request->get('bio'))));
             try {
                 $user->changeBio($bio);
                 $args['info'] = "Bio was updated";
-            }
-            catch (\Exception $ex) {
+            } catch (\Exception $ex) {
                 $args['err'] = "Can not change bio:" . $ex->getMessage();
             }
         }

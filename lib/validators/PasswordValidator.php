@@ -5,9 +5,11 @@ namespace App\lib\validators;
 use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Component\Validator\Constraints\Collection;
 
-class PasswordValidator extends AbstractValidator {
+class PasswordValidator extends AbstractValidator
+{
 
-    protected function GetConstraints($param): Collection {
+    protected function GetConstraints($param): Collection
+    {
         return new Collection([
             'passwd' => $this->getPasswdRules(),
             'duplicate' => $this->getDuplicateRules($param),
@@ -15,7 +17,8 @@ class PasswordValidator extends AbstractValidator {
         ]);
     }
 
-    private function getPasswdRules(): array {
+    private function getPasswdRules(): array
+    {
         return [
             new Assert\NotBlank([
                 'message' => 'Field can not be empty'
@@ -30,7 +33,8 @@ class PasswordValidator extends AbstractValidator {
         ];
     }
 
-    private function getDuplicateRules($param): array {
+    private function getDuplicateRules($param): array
+    {
         return [
             new Assert\NotBlank([
                 'message' => 'Field can not be empty'
@@ -42,7 +46,8 @@ class PasswordValidator extends AbstractValidator {
         ];
     }
 
-    private function getOldPasswdRules($param): array {
+    private function getOldPasswdRules($param): array
+    {
         return [
             new Assert\NotBlank([
                 'message' => 'Field can not be empty'

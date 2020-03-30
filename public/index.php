@@ -21,7 +21,7 @@ try {
     $request = Request::createFromGlobals();
     $rqContext ->fromRequest($request);
 
-    $router = new Router (
+    $router = new Router(
         new YamlFileLoader($locator),
         $routesCfgFile,
         array('cache_dir' => __DIR__.'/cache'),

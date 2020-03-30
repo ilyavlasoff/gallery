@@ -6,7 +6,8 @@ namespace App\lib\ConfReaders;
 use Symfony\Component\Config\Definition\Exception\Exception;
 use Symfony\Component\Yaml\Parser;
 
-class YamlConfigReader {
+class YamlConfigReader
+{
 
     private $dir = root . '/config/';
     private $data;
@@ -25,7 +26,8 @@ class YamlConfigReader {
         $this->data = $yaml->parse($content);
     }
 
-    public function get(string $property) {
+    public function get(string $property)
+    {
         return $this->data[$property];
     }
 }

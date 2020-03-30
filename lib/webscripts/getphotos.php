@@ -7,9 +7,11 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Session\Session;
 use Symfony\Component\HttpFoundation\Response;
 
-class GetPhotos {
+class GetPhotos
+{
 
-    public static function call(): Response {
+    public static function call(): Response
+    {
         $session = new Session();
         $session->start();
         $req = Request::createFromGlobals();
@@ -24,10 +26,9 @@ class GetPhotos {
 
         try {
             $user = \App\lib\entities\User::getUserFromDB($page);
-            if($user->getPostsCount() === 0) {
+            if ($user->getPostsCount() === 0) {
                 $msg = ['loaded' => 0, 'message' => "<p>Profile is empty</p>"];
-            }
-            else {
+            } else {
                 $posts = $user->getPosts($quan, $offset);
                 $content = "";
                 foreach ($posts as $element) {
@@ -35,12 +36,9 @@ class GetPhotos {
                 }
                 $msg = ['loaded' => count($posts), 'message' => $content];
             }
-            return new Response(json_encode($msg), Response::HTTP_OK,
-                ['Content-Type' => 'application/json']);
-        }
-        catch (Exception $ex) {
-            return new Response(json_encode(['error' => 'Can not get posts' . $ex->getMessage()]), Response::HTTP_INTERNAL_SERVER_ERROR,
-                ['Content-Type' => 'application/json']);
+            return new Response(json_encode($msg), Response::HTTP_OK, ['Content-Type' => 'application/json']);
+        } catch (Exception $ex) {
+            return new Response(json_encode(['error' => 'Can not get posts' . $ex->getMessage()]), Response::HTTP_INTERNAL_SERVER_ERROR, ['Content-Type' => 'application/json']);
         }
     }
 }

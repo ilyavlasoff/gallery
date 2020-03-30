@@ -7,9 +7,11 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Session\Session;
 use Symfony\Component\HttpFoundation\Response;
 
-class GetNewsLine {
+class GetNewsLine
+{
 
-    public static function call(): Response {
+    public static function call(): Response
+    {
         $session = new Session();
         $session->start();
         $req = Request::createFromGlobals();
@@ -23,10 +25,9 @@ class GetNewsLine {
 
         try {
             $user = $session->get('auth');
-            if($user->subscribeQuanInfo()[1] === 0) {
+            if ($user->subscribeQuanInfo()[1] === 0) {
                 $msg = ['loaded' => 0, 'message' => "<p>No subscriptions yet</p>"];
-            }
-            else {
+            } else {
                 $posts = $user->getSubscriptionsPosts($quan, $offset);
                 $content = "";
                 foreach ($posts as $element) {
@@ -35,12 +36,9 @@ class GetNewsLine {
                 }
                 $msg = ['loaded' => count($posts), 'message' => $content];
             }
-            return new Response(json_encode($msg), Response::HTTP_OK,
-                ['Content-Type' => 'application/json']);
-        }
-        catch (Exception $ex) {
-            return new Response(json_encode(['error' => 'Can not get posts' . $ex->getMessage()]), Response::HTTP_INTERNAL_SERVER_ERROR,
-                ['Content-Type' => 'application/json']);
+            return new Response(json_encode($msg), Response::HTTP_OK, ['Content-Type' => 'application/json']);
+        } catch (Exception $ex) {
+            return new Response(json_encode(['error' => 'Can not get posts' . $ex->getMessage()]), Response::HTTP_INTERNAL_SERVER_ERROR, ['Content-Type' => 'application/json']);
         }
     }
 }

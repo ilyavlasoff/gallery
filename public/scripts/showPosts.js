@@ -1,7 +1,8 @@
 var picturesContainer = document.getElementById("profile-content");
 var loadModeButton = document.getElementById("loadmore");
-function loadPics() {
-    var success = function(data) {
+function loadPics()
+{
+    var success = function (data) {
         console.log(data);
         var resp = JSON.parse(data);
         console.log(resp);
@@ -11,7 +12,7 @@ function loadPics() {
         }
         offset += resp.loaded;
     };
-    var err = function(errno, data) {
+    var err = function (errno, data) {
         console.log(data);
     };
     console.log(args);

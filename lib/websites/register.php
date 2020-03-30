@@ -11,7 +11,8 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Session\Session;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 
-class register {
+class register
+{
 
     public static function render(): Response
     {
@@ -26,7 +27,8 @@ class register {
             return $resp;
         }
 
-        if ($req->request->has('submit')) {
+        if ($req->request->has('submit'))
+        {
 
             $username = htmlspecialchars(strip_tags(trim($req->request->get('username'))));
             $login = htmlspecialchars(strip_tags(trim($req->request->get('login'))));
@@ -64,15 +66,13 @@ class register {
                 $errRegpage = new TemplateBuilder('register.html', $savedParams);
                 return new Response(strval($errRegpage));
             }
-        }
-        else {
+        } else {
             $page = new TemplateBuilder('register.html', [
                 'header' => new TemplateBuilder('header.html', ['logged' => false])
             ]);
             return new Response(strval($page));
         }
     }
-
 }
 
 /*

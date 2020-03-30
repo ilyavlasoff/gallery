@@ -20,53 +20,69 @@ use App\lib\webscripts\getNewsLine;
 
 use Symfony\Component\HttpFoundation\Response;
 
-class Controller {
+class Controller
+{
 
-    public static function startpageCall(): Response {
+    public static function startpageCall(): Response
+    {
         return startpage::render();
     }
-    public static function loginCall(): Response {
+    public static function loginCall(): Response
+    {
         return login::render();
     }
-    public static function registerCall(): Response {
+    public static function registerCall(): Response
+    {
         return register::render();
     }
-    public static function profileCall($id): Response {
+    public static function profileCall($id): Response
+    {
         return profile::render($id);
     }
-    public static function editCall(): Response {
+    public static function editCall(): Response
+    {
         return settings::render();
     }
-    public static function newpostCall(): Response {
+    public static function newpostCall(): Response
+    {
         return addPost::render();
     }
-    public static function logoutCall(): Response {
+    public static function logoutCall(): Response
+    {
         return logout::call();
     }
-    public static function loadimageCall($param): Response {
+    public static function loadimageCall($param): Response
+    {
         return imageloader::getImage($param['username'], $param['filename'], $param['size']);
     }
-    public static function subscribeCall(): Response {
+    public static function subscribeCall(): Response
+    {
         return subscribe::call();
     }
-    public static function getphotosCall(): Response {
+    public static function getphotosCall(): Response
+    {
         return getphotos::call();
     }
-    public static function getFullPostCall(): Response {
+    public static function getFullPostCall(): Response
+    {
         return getFullPost::call();
     }
-    public static function markCall(): Response {
+    public static function markCall(): Response
+    {
         return mark::call();
     }
-    public static function newslineCall(): Response {
+    public static function newslineCall(): Response
+    {
         return newsline::render();
     }
 
-    public static function getNewslineCall(): Response {
+    public static function getNewslineCall(): Response
+    {
         return getNewsLine::call();
     }
 
-    public static function findCall(): Response {
+    public static function findCall(): Response
+    {
         return finder::render();
     }
 }

@@ -3,13 +3,14 @@ var underlay = document.getElementById('underlay');
 var photoBlock = document.getElementById('openImageViewver');
 var imageContainer = document.getElementById('picture');
 var id;
-document.getElementById('profile-content').onclick = function(event) {
+document.getElementById('profile-content').onclick = function (event)
+{
     let target = event.target;
     const url = '/post';
     if (target.className === 'ph') {
         id = target.id;
         var args = {'id': id };
-        var success = function(data) {
+        var success = function (data) {
             console.log(data);
             var resp = JSON.parse(data);
             underlay.classList.add('underlay-show');
@@ -27,12 +28,13 @@ document.getElementById('profile-content').onclick = function(event) {
             if (resp.description !== '') {
                 var comment = document.createElement('p');
                 comment.innerHTML = '<b>' + resp.ownerName + '</b> ' + resp.description;
-                document.getElementById('comments').appendChild( comment);
+                document.getElementById('comments').appendChild(comment);
             }
             likeValueOnPage = parseInt(resp.yourMark);
             displayLike(likeValueOnPage);
         };
-        var err = function(errno, data) {
+        var err = function (errno, data)
+        {
             console.log(data);
         };
         ajax('POST', url, args, success, err);
