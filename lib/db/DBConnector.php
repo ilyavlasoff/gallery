@@ -7,20 +7,12 @@ use Symfony\Component\Config\Definition\Exception\Exception;
 use PDO;
 
 class DBConnector {
-    /*
-    private static PDO $pdo;
+    private $pdo;
 
-    public function __get(): PDO
-    {
-        if (is_null(self::$pdo)) {
-            //self::$pdo = $this->CreateDboInstance();
-        }
-
-    }*/
-    public static function CreateDboInstance(string $pathToConfig = ""): PDO
+    public function __construct(string $filename, string $filepath = "")
     {
         try {
-            $reader = new ConfReaders\YamlConfigReader('dbconf.yaml');
+            $reader = new ConfReaders\YamlConfigReader($filename, $filepath);
             $host = $reader->get("host");
             $port = $reader->get("port");
             $db = $reader->get("db");
@@ -28,16 +20,36 @@ class DBConnector {
             $password = $reader->get("passwd");
         }
         catch (Exception $ex) {
-            print "Error!: " . $ex->getMessage() . "<br/>";
+            echo "Error!: " . $ex->getMessage() . "<br/>";
             die();
         }
         $dsn="pgsql:host={$host};port={$port};dbname={$db};user={$username};password={$password}";
-        $opt = [
+        $options = [
             PDO::ATTR_ERRMODE            => PDO::ERRMODE_EXCEPTION,
             PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,
             PDO::ATTR_EMULATE_PREPARES   => false,
         ];
-        $pdo = new PDO($dsn, $username, $password, $opt);
-        return $pdo;
+        $this->pdo = new PDO($dsn, $username, $password, $options);
+    }
+    private function query(string $query, array $params): \PDOStatement {
+        $expr = $this->pdo->prepare($query);
+        $expr->execute($params);
+        return $expr;
+    }
+    public function multirows(string $query, array $params): array {
+        $statement = $this->query($query, $params);
+        return $statement->fetchAll(PDO::FETCH_ASSOC);
+    }
+    public function row(string $query, array $params): array {
+        $statement = $this->query($query, $params);
+        return $statement->fetch(PDO::FETCH_ASSOC);
+    }
+    public function scalar(string $query, array $params) {
+        $statement = $this->query($query, $params);
+        return $statement->fetchColumn();
+    }
+    public function nonQuery(string $query, array $params): int {
+        $statement = $this->query($query, $params);
+        return $statement->rowCount();
     }
 }

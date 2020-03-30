@@ -8,7 +8,8 @@
     "symfony/http-client": "^5.0",
     "ext-gd": "*",
     "ext-json": "*",
-    "ext-http": "*"
+    "ext-http": "*",
+    "ext-pdo": "*"
   },
   "autoload": {
     "psr-4": {

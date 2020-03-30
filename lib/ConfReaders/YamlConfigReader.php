@@ -8,10 +8,10 @@ use Symfony\Component\Yaml\Parser;
 
 class YamlConfigReader {
 
-    private $dir = __DIR__ . '/../../config/';
+    private $dir = root . '/config/';
     private $data;
 
-    public function __construct(string $filename, string $dirname = null)
+    public function __construct(string $filename, string $dirname = '')
     {
         if ($dirname) {
             $this->dir = $dirname;
