@@ -16,7 +16,7 @@ class startpage
         $session->start();
 
         if ($user = $session->get('auth')) {
-            if ($user instanceof entities\user && $user->checkCorrectServerParams()) {
+            if ($user instanceof entities\user) {
                 $login = $user->login;
                 $resp = new RedirectResponse("/profile/$login");
                 return $resp;

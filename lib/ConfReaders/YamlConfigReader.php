@@ -2,7 +2,6 @@
 
 namespace App\lib\ConfReaders;
 
-//use Symfony\Component\Finder\Finder;
 use Symfony\Component\Config\Definition\Exception\Exception;
 use Symfony\Component\Yaml\Parser;
 

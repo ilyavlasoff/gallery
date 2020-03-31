@@ -29,7 +29,6 @@ class register
 
         if ($req->request->has('submit'))
         {
-
             $username = htmlspecialchars(strip_tags(trim($req->request->get('username'))));
             $login = htmlspecialchars(strip_tags(trim($req->request->get('login'))));
             $passwd = htmlspecialchars(strip_tags(trim($req->request->get('passwd'))));

@@ -38,12 +38,3 @@ function subscr(btn, pageId, oper)
     };
     ajax('POST', url, args, success, err);
 }
-
-function subscribe(btn, pageId, oper)
-{
-    subscr(btn, pageId, oper);
-}
-function unsubscribe(btn, pageId, oper)
-{
-    subscr(btn, pageId, oper);
-}

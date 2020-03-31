@@ -1,0 +1,5 @@
+host: [IP]
+port: [port]
+db: [database name]
+username: [username]
+passwd: [password]

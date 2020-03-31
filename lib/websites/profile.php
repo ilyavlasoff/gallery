@@ -21,7 +21,6 @@ class Profile
         $session = new Session();
         $session->start();
 
-        // если вход не выполнен, переадресация на главную страницу
         if (!$session->has('auth')) {
             $template = new TemplateBuilder('placeholder.html', [
                 'header' => new TemplateBuilder('header.html', ['logged' => false]),
@@ -30,7 +29,7 @@ class Profile
             return new Response(strval($template));
         }
         $reqId = $param['id'];
-        //проверка существования пользователя
+
         $owner = $session->get('auth');
         if (!entities\User::isUserExists($reqId)) {
             $template = new TemplateBuilder('placeholder.html', [
