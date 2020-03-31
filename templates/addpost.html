@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Add post</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+
+    <link href="https://fonts.googleapis.com/css2?family=Nunito&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/styles.css">
+
+    <script src="https://kit.fontawesome.com/473afe022a.js" crossorigin="anonymous"></script>
+
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+          integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+</head>
+<body>
+<?=$header?>
+<h1 class="page-title">Add a new post</h1>
+<div class="flex-container accountInfoContainer">
+    <div class="flex-container accountInfo">
+        <img src="/image/<?=$userlogin . '/' . $profilePic?>/200*200" alt="<?=$name?>'s profile picture" class="">
+        <a href="<?=$pageUrl?>" target="_blank" class="titleName"><h5><?=$name . ' ' . $surname?></h5></a>
+    </div>
+    <p class="accountLogin"><?=$login?></p>
+</div>
+<form method="POST" action="/newpost" enctype="multipart/form-data">
+    <div class="flex-container" id="mainContainer">
+        <div class="flex-container" id="previewContainer">
+            <img src="/image/0/noimage.png/full" alt="No photo" id="previewImage">
+            <label for="previewImage">Image preview</label>
+        </div>
+        <div id="inputField">
+            <div class="form-group">
+                <label for="fileInput" >Choose a file</label><br>
+                <input type="file" id="fileInput" name="fileinp" accept=".jpg, .jpeg, .png">
+            </div>
+            <div class="form-group">
+                <label for="photoDescription">Describe your photo</label>
+                <textarea class="form-control" id="photoDescription" name="photoDescription" rows="3"></textarea>
+            </div>
+            <button type="submit" class="btn btn-primary btn-sm" name="submit" id="addPhotoButton">Add photo</button>
+            <div id="fileInfo"></div>
+            <div><label class="err"><?=$error?></label></div>
+        </div>
+    </div>
+</form>
+<script type="text/javascript" src="showPreview.js"></script>
+</body>
+</html>

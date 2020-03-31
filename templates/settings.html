@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+          integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <link href="https://fonts.googleapis.com/css2?family=Nunito&display=swap" rel="stylesheet">
+    <script src="https://kit.fontawesome.com/473afe022a.js" crossorigin="anonymous"></script>
+    <meta charset="utf-8">
+    <link rel="stylesheet" href="/styles.css">
+    <title>Account settings</title>
+</head>
+<body>
+    <?=$header?>
+    <h1 class="page-title">Account settings</h1>
+    <div class="flex-container accountInfoContainer">
+        <div class="flex-container accountInfo">
+            <img src="/image/<?=$login?>/<?=$profilePic?>/200*200" alt="<?=$name?>'s profile picture" class="">
+            <a href="<?=$userpage?>" target="_blank" class="titleName"><h5><?=$name . ' ' . $surname?></h5></a>
+        </div>
+        <p class="accountLogin"><?=$login?></p>
+    </div>
+    <p class="info"><?=$info?></p>
+    <p class="err"><?=$err?></p>
+    <div class="flex-container main-container">
+        <div class="flex-container setter-container" id="loginInfo">
+            <label for="titleLink">Your login</label>
+            <a href="<?=$userpage?>" target="_blank" id="titleLink"><h5><?=$login?></h5></a>
+        </div>
+        <div class="flex-container setter-container bordered-container" id="changeUserPic">
+            <label>Change main profile picture</label>
+            <form method="POST" action="/edit" enctype="multipart/form-data">
+                <input type="file" accept=".png, .jpg, .jpeg" name="photo"><br>
+                <button name="changePicture" type="submit" class="btn btn-sm btn-secondary submit-button" onchange="updatePicture">Change profile picture</button>
+            </form>
+        </div>
+        <div class="flex-container setter-container bordered-container" id="changePassword">
+            <label for="changePasswdForm">Change password</label>
+            <form action="/edit" id="changePasswdForm" method="POST">
+                <input type="password" name="oldPasswd" class="form-control sp-input" placeholder="Old password" id="oldPasswd" value="<?=$oldPasswd?>">
+                <input type="password" name="newPasswd" class="form-control sp-input" placeholder="New password" id="newPasswd" value="<?=$newPasswd?>">
+                <input type="password" name="newPasswdRepeat" class="form-control sp-input" placeholder="Repeat password" id="newPasswdRep" value="<?=$newPasswdRep?>">
+                <button type="submit" name="changePasswd" class="btn btn-sm btn-secondary submit-button">Change password</button>
+            </form>
+        </div>
+        <div class="flex-container setter-container bordered-container" id="changeNick">
+            <label for="changeNickForm">Change nickname</label>
+            <form action="/edit" method="POST" id="changeNickForm">
+                <input type="text" name="nick" value="<?=$nick?>" class="form-control sp-input" placeholder="Nickname" id="nickName">
+                <button type="submit" name="changeNick" class="btn btn-sm btn-secondary submit-button">Change nickname</button>
+            </form>
+        </div>
+        <div class="flex-container setter-container bordered-container" id="changeBio">
+            <label for="changeBioForm">Change bio</label>
+            <form action="/edit" method="POST" id="changeBioForm">
+                <textarea name="bio" class="form-control" placeholder="Account description" id="bioArea" rows="3"><?=$bio?></textarea>
+                <button type="submit" name="changeBio" class="btn btn-sm btn-secondary submit-button">Change bio</button>
+            </form>
+        </div>
+        <a href="/profile/<?=$login?>"  target="_self"><button type="button" class="btn btn-primary cent-button">Go to your page</button></a>
+    </div>
+    <div class="flex-container footer">
+        <label>Photogallery 2020</label>
+    </div>
+</body>
+</html>

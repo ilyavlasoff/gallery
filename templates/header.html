@@ -1,0 +1,27 @@
+<link href="https://fonts.googleapis.com/css2?family=Nunito&display=swap" rel="stylesheet">
+<script src="https://kit.fontawesome.com/473afe022a.js" crossorigin="anonymous"></script>
+<link rel="stylesheet" href="/header.css">
+<div class="flex header" id="headerContainer">
+    <div class="flex-container logo-container">
+        <a href="/" target="_self"><h2>Gallery</h2></a>
+    </div>
+    <div class="flex action-container">
+    <?php if($logged) {?>
+        <div class="flex form-container">
+            <form method="POST" action="/find">
+                <input type="search" placeholder=" Search..." name="criteria" id="searchField">
+                <button type="submit" name="submit"><i class="fas fa-search"></i></button>
+            </form>
+        </div>
+        <a href="/newsline" target="_self" id="newsline"><i class="fas fa-stream"></i></a>
+        <a href="/profile/<?=$login?>" target="_self" id="mypage"><i class="fas fa-user-circle"></i></a>
+        <a href="/logout" target="_self" id="logout"><i class="fas fa-sign-out-alt"></i></a>
+    <?php } else { ?>
+        <a href="/login" target="_self"><i class="fas fa-sign-in-alt"></i></a>
+        <a href="/register" target="_self"><i class="fas fa-user-plus"></i></a>
+    <?php } ?>
+    </div>
+</div>
+<style>
+
+</style>

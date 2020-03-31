@@ -1,0 +1,61 @@
+root_route:
+  path:     /
+  defaults: { controller: 'App\lib\controller\Controller::startpageCall' }
+
+login_route:
+  path:     /login
+  defaults: { controller: 'App\lib\controller\Controller::loginCall' }
+
+reg_route:
+  path:     /register
+  defaults: { controller: 'App\lib\controller\Controller::registerCall' }
+
+page_route:
+  path:     /profile/{id}
+  defaults: { controller: 'App\lib\controller\Controller::profileCall' }
+  requirements:
+    id: '.+@.+\..+'
+
+edit_route:
+  path: /edit
+  defaults: { controller: 'App\lib\controller\Controller::editCall' }
+
+newpost_route:
+  path: /newpost
+  defaults: { controller: 'App\lib\controller\Controller::newpostCall' }
+
+logout_route:
+  path: /logout
+  defaults: { controller: 'App\lib\controller\Controller::logoutCall' }
+
+loadimage_route:
+  path: /image/{username}/{filename}/{size}
+  defaults: { controller: 'App\lib\controller\Controller::loadimageCall' }
+
+subscribe_route:
+  path: /subscribe
+  defaults: { controller: 'App\lib\controller\Controller::subscribeCall' }
+
+getphotos_route:
+  path: /getphotos
+  defaults: { controller: 'App\lib\controller\Controller::getphotosCall' }
+
+post_route:
+  path: /post
+  defaults: { controller: 'App\lib\controller\Controller::getFullPostCall' }
+
+mark_route:
+  path: /mark
+  defaults: { controller: 'App\lib\controller\Controller::markCall' }
+
+newsline_route:
+  path: /newsline
+  defaults: { controller: 'App\lib\controller\Controller::newslineCall' }
+
+getnewsline_route:
+  path: /getnewsline
+  defaults: { controller: 'App\lib\controller\Controller::getNewslineCall' }
+
+finder_route:
+  path: /find
+  defaults: { controller: 'App\lib\controller\Controller::findCall' }
