@@ -37,12 +37,12 @@ class DBConnector
         $expr->execute($params);
         return $expr;
     }
-    public function multirows(string $query, array $params): array
+    public function multirows(string $query, array $params)
     {
         $statement = $this->query($query, $params);
         return $statement->fetchAll(PDO::FETCH_ASSOC);
     }
-    public function row(string $query, array $params): array
+    public function row(string $query, array $params)
     {
         $statement = $this->query($query, $params);
         return $statement->fetch(PDO::FETCH_ASSOC);
@@ -52,7 +52,7 @@ class DBConnector
         $statement = $this->query($query, $params);
         return $statement->fetchColumn();
     }
-    public function nonQuery(string $query, array $params): int
+    public function nonQuery(string $query, array $params)
     {
         $statement = $this->query($query, $params);
         return $statement->rowCount();

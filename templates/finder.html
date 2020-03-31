@@ -10,7 +10,7 @@
     <link rel="stylesheet" href="/styles.css">
     <title>Find users</title>
 </head>
-<body>
+<body onload="subscribeToMultiplePages();">
 <?=$header?>
 <h1 class="page-title">Find users</h1>
 <div class="flex-container accountInfoContainer">
@@ -34,6 +34,8 @@
         <?=$result?>
     </div>
 </div>
+<script src="/ajax.js" type="text/javascript"></script>
+<script src="/subscription.js" type="text/javascript"></script>
 </body>
 
 </html>

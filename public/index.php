@@ -3,14 +3,16 @@
 require_once '../vendor/autoload.php';
 define('root', realpath(__DIR__ . '/../'));
 
+use App\templates\TemplateBuilder;
 use Symfony\Component\Routing\RequestContext;
 use Symfony\Component\Routing\Router;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\Routing\Generator\UrlGenerator;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Config\FileLocator;
 use Symfony\Component\Routing\Loader\YamlFileLoader;
 use Symfony\Component\Routing\Exception\ResourceNotFoundException;
 
+set_exception_handler('displayError');
 
 try {
     $cfgDir = '../config';
@@ -34,8 +36,15 @@ try {
     $controller = new $controller($request);
     $response = $controller->$function($params);
     $response->send();
-
+} catch (ResourceNotFoundException $ex) {
+    displayError('Page does not exist');
+} catch (Exception $ex) {
+    displayError('Unexpected error');
 }
-catch (ResourceNotFoundException $ex) {
-    echo $ex->getMessage();
+
+function displayError($message): Response
+{
+    $errPage = new TemplateBuilder('placeholder.html', ['error' => $message]);
+    $resp = new Response(strval($errPage));
+    $resp->send();
 }

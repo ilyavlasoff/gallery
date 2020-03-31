@@ -11,7 +11,6 @@ document.getElementById('profile-content').onclick = function (event)
         id = target.id;
         var args = {'id': id };
         var success = function (data) {
-            console.log(data);
             var resp = JSON.parse(data);
             underlay.classList.add('underlay-show');
             photoBlock.classList.add('block-show');

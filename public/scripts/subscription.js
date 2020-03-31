@@ -1,26 +1,36 @@
-var subscribeButton = document.getElementById('operbut');
-document.addEventListener('onload', checkSubscription());
+function subscribeToSinglePage()
+{
+    var subscribeButton = document.getElementById('operbut');
+    subscr(subscribeButton, pageId, 'check');
+}
 
-function subscr(check)
+function subscribeToMultiplePages()
+{
+    var subButtons = document.getElementsByName('sub');
+    subButtons.forEach(function(item) {
+        subscr(item, item.getAttribute('id'), 'check');
+    })
+}
+
+
+function subscr(btn, pageId, oper)
 {
     const url = "/subscribe";
-    var args = {'to': pageId, "oper": check};
+    var args = {'to': pageId, "oper": oper};
     var success = function (resp) {
         let isSubscribed = JSON.parse(resp).subscr;
-        console.log(args);
-        console.log(isSubscribed);
         if (isSubscribed === 1) {
-            subscribeButton.classList.remove('btn-primary');
-            subscribeButton.classList.add('btn-secondary');
-            subscribeButton.innerText = "Subscribed";
-            subscribeButton.removeEventListener('click', subscribe);
-            subscribeButton.addEventListener('click', unsubscribe);
+            btn.classList.remove('btn-primary');
+            btn.classList.add('btn-secondary');
+            btn.innerText = "Subscribed";
+            btn.removeEventListener('click', function() { subscr(btn, pageId, 'add'); });
+            btn.addEventListener('click', function() { subscr(btn, pageId, 'cancel'); });
         } else {
-            subscribeButton.classList.remove('btn-secondary');
-            subscribeButton.classList.add('btn-primary');
-            subscribeButton.innerText = "Subscribe";
-            subscribeButton.removeEventListener('click', unsubscribe);
-            subscribeButton.addEventListener('click', subscribe);
+            btn.classList.remove('btn-secondary');
+            btn.classList.add('btn-primary');
+            btn.innerText = "Subscribe";
+            btn.removeEventListener('click', function() { subscr(btn, pageId, 'cancel'); });
+            btn.addEventListener('click', function() { subscr(btn, pageId, 'add'); });
         }
     };
     var err = function (errno, resp) {
@@ -29,15 +39,11 @@ function subscr(check)
     ajax('POST', url, args, success, err);
 }
 
-function subscribe()
+function subscribe(btn, pageId, oper)
 {
-    subscr('add')
+    subscr(btn, pageId, oper);
 }
-function unsubscribe()
+function unsubscribe(btn, pageId, oper)
 {
-    subscr('cancel')
-}
-function checkSubscription()
-{
-    subscr('check');
+    subscr(btn, pageId, oper);
 }

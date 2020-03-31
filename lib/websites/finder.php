@@ -56,7 +56,7 @@ class Finder
                             'postsCount' => $user->getPostsCount(),
                             'inSubsCount' => $inSubs,
                             'outSubsCount' => $outSubs,
-                            'isSubscr' => $isSub
+                            'display' => $user->login !== $owner->login
                         ]);
                         $param['result'] .= strval($itemTemplate);
                     }

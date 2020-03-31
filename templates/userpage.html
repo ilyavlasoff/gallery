@@ -10,7 +10,7 @@
     <title><?=$nick?>'s page</title>
     <meta charset="utf-8">
 </head>
-<body onload="loadPics()">
+<body onload="loadPics(); subscribeToSinglePage();">
 <?=$header?>
 <div class="flex-container">
     <div class="flex-container profile-header">
@@ -71,7 +71,7 @@
     </div>
 </div>
 <div class="flex-container footer">
-    <label>Photogallery Picplace 2020</label>
+    <label>Photogallery 2020</label>
 </div>
 <script type="text/javascript">
     var pageId = "<?=$pageId?>";
